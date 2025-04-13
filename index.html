@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DEVAKA AI Generator - Create beautiful AI-generated images with multiple styles (realistic, anime, digital art, photography) and customization options. Choose from Stable Diffusion, DALL-E, or Midjourney styles, set quality levels, and download high-resolution images instantly.">
+    <meta name="description" content="Generate stunning AI images with DEVAKA AI Generator. Customize style, quality, and aspect ratio. Create unique digital art, anime, photography, and more with powerful AI technology.">
     <title>DEVAKA AI GENERATOR - Powerful AI Image Creation</title>
     <style>
         :root {
@@ -216,8 +216,17 @@
 
         .image-container {
             position: relative;
-            padding-top: 100%;
+            padding-top: 100%; /* Default for 1:1 */
             background-color: #f5f5f5;
+        }
+
+        /* Aspect ratio adjustments */
+        .image-container[data-aspect-ratio="9:16"] {
+            padding-top: 177.78%; /* 16:9 = 9/16 = 0.5625 (56.25%) */
+        }
+
+        .image-container[data-aspect-ratio="16:9"] {
+            padding-top: 56.25%; /* 9:16 = 16/9 ≈ 1.778 (177.78%) */
         }
 
         .generated-image {
@@ -443,6 +452,31 @@
                         fullPrompt += `, ${styleSelect.value}`;
                     }
                     
+                    // Determine dimensions based on aspect ratio and quality
+                    let width, height;
+                    switch (aspectRatioSelect.value) {
+                        case '1:1': // Square
+                            width = qualitySelect.value === 'ultra' ? 1024 : 
+                                    qualitySelect.value === 'high' ? 768 : 512;
+                            height = width;
+                            break;
+                        case '9:16': // Portrait
+                            width = qualitySelect.value === 'ultra' ? 540 : 
+                                    qualitySelect.value === 'high' ? 405 : 360;
+                            height = qualitySelect.value === 'ultra' ? 960 : 
+                                     qualitySelect.value === 'high' ? 720 : 640;
+                            break;
+                        case '16:9': // Landscape
+                            width = qualitySelect.value === 'ultra' ? 1280 : 
+                                    qualitySelect.value === 'high' ? 1024 : 854;
+                            height = qualitySelect.value === 'ultra' ? 720 : 
+                                     qualitySelect.value === 'high' ? 576 : 480;
+                            break;
+                        default:
+                            width = 512;
+                            height = 512;
+                    }
+                    
                     // Add quality descriptors
                     if (qualitySelect.value === 'high') {
                         fullPrompt += ', high resolution, detailed';
@@ -465,31 +499,8 @@
                     // Encode the prompt for URL
                     const encodedPrompt = encodeURIComponent(fullPrompt);
                     
-                    // Determine dimensions based on aspect ratio
-                    let width, height;
-                    switch (aspectRatioSelect.value) {
-                        case '1:1':
-                            width = 512;
-                            height = 512;
-                            break;
-                        case '9:16':
-                            width = 360;
-                            height = 640;
-                            break;
-                        case '16:9':
-                            width = 1024;
-                            height = 576;
-                            break;
-                        default:
-                            width = 512;
-                            height = 512;
-                    }
-                    
-                    // Build the base API URL
-                    let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}`;
-                    
-                    // Add parameters
-                    apiUrl += `?width=${width}&height=${height}`;
+                    // Build the base API URL with width & height
+                    let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}`;
                     
                     // Add nologo parameter if checked
                     if (nologoCheckbox.checked) {
@@ -514,6 +525,7 @@
                             
                             const imageContainer = document.createElement('div');
                             imageContainer.className = 'image-container';
+                            imageContainer.setAttribute('data-aspect-ratio', aspectRatioSelect.value);
                             
                             const img = new Image();
                             img.className = 'generated-image';
