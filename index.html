@@ -1,638 +1,684 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Generate stunning AI images with DEVAKA AI Generator. Customize style, quality, and aspect ratio. Create unique digital art, anime, photography, and more with powerful AI technology.">
-    <title>DEVAKA AI GENERATOR - Powerful AI Image Creation</title>
-    <style>
-        :root {
-            --primary-color: #6e45e2;
-            --secondary-color: #88d3ce;
-            --accent-color: #ff7e5f;
-            --dark-color: #2a2d3e;
-            --light-color: #f8f9fa;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-        }
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="DEVAKA AI Generator - Create beautiful AI-generated images with multiple styles (realistic, anime, digital art, photography) and customization options. Choose from Stable Diffusion, DALL-E, or Midjourney styles, set quality levels, and download high-resolution images instantly.">
+		<title>DEVAKA AI GENERATOR - Powerful AI Image Creation</title>
+		<style>
+			:root {
+				--primary-color: #6e45e2;
+				--secondary-color: #88d3ce;
+				--accent-color: #ff7e5f;
+				--dark-color: #2a2d3e;
+				--light-color: #f8f9fa;
+				--success-color: #28a745;
+				--warning-color: #ffc107;
+				--danger-color: #dc3545;
+			}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			}
 
-        body {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            min-height: 100vh;
-            color: var(--dark-color);
-            padding: 2rem;
-        }
+			body {
+				background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+				min-height: 100vh;
+				color: var(--dark-color);
+				padding: 2rem;
+			}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            padding: 2rem;
-        }
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background-color: rgba(255, 255, 255, 0.9);
+				border-radius: 20px;
+				box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+				overflow: hidden;
+				padding: 2rem;
+			}
 
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-        }
+			header {
+				text-align: center;
+				margin-bottom: 2rem;
+				padding-bottom: 1rem;
+				border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+			}
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 800;
-        }
+			h1 {
+				font-size: 2.5rem;
+				margin-bottom: 0.5rem;
+				background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+				-webkit-background-clip: text;
+				background-clip: text;
+				color: transparent;
+				font-weight: 800;
+			}
 
-        .subtitle {
-            color: var(--dark-color);
-            opacity: 0.8;
-            font-size: 1.1rem;
-        }
+			.subtitle {
+				color: var(--dark-color);
+				opacity: 0.8;
+				font-size: 1.1rem;
+			}
 
-        .generator-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
+			.generator-form {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
 
-        @media (max-width: 768px) {
-            .generator-form {
-                grid-template-columns: 1fr;
-            }
-        }
+			@media (max-width: 768px) {
+				.generator-form {
+					grid-template-columns: 1fr;
+				}
+			}
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+			.form-group {
+				margin-bottom: 1.5rem;
+			}
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
+			label {
+				display: block;
+				margin-bottom: 0.5rem;
+				font-weight: 600;
+				color: var(--dark-color);
+			}
 
-        .prompt-container {
-            grid-column: 1 / -1;
-        }
+			.prompt-container {
+				grid-column: 1 / -1;
+			}
 
-        textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            resize: vertical;
-            min-height: 120px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+			textarea {
+				width: 100%;
+				padding: 1rem;
+				border: 2px solid #e0e0e0;
+				border-radius: 10px;
+				resize: vertical;
+				min-height: 120px;
+				font-size: 1rem;
+				transition: all 0.3s ease;
+			}
 
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
-        }
+			textarea:focus {
+				outline: none;
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
+			}
 
-        select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            background-color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+			select {
+				width: 100%;
+				padding: 0.8rem;
+				border: 2px solid #e0e0e0;
+				border-radius: 10px;
+				font-size: 1rem;
+				background-color: white;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
 
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
-        }
+			select:focus {
+				outline: none;
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
+			}
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
+			.checkbox-group {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				margin-top: 0.5rem;
+			}
 
-        .checkbox-group input {
-            width: auto;
-        }
+			.checkbox-group input {
+				width: auto;
+			}
 
-        .generate-btn {
-            grid-column: 1 / -1;
-            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+			.generate-btn {
+				grid-column: 1 / -1;
+				background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+				color: white;
+				border: none;
+				padding: 1rem 2rem;
+				font-size: 1.2rem;
+				font-weight: 600;
+				border-radius: 10px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.5rem;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+			}
 
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
+			.generate-btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+			}
 
-        .generate-btn:active {
-            transform: translateY(0);
-        }
+			.generate-btn:active {
+				transform: translateY(0);
+			}
 
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-            grid-column: 1 / -1;
-        }
+			.loading {
+				display: none;
+				text-align: center;
+				padding: 2rem;
+				grid-column: 1 / -1;
+			}
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(110, 69, 226, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto 1rem;
-        }
+			.spinner {
+				width: 50px;
+				height: 50px;
+				border: 5px solid rgba(110, 69, 226, 0.2);
+				border-radius: 50%;
+				border-top-color: var(--primary-color);
+				animation: spin 1s ease-in-out infinite;
+				margin: 0 auto 1rem;
+			}
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+			@keyframes spin {
+				to { transform: rotate(360deg); }
+			}
 
-        .results {
-            margin-top: 2rem;
-        }
+			.results {
+				margin-top: 2rem;
+			}
 
-        .results-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
+			.results-title {
+				font-size: 1.5rem;
+				margin-bottom: 1rem;
+				color: var(--dark-color);
+			}
 
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+			.image-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 1.5rem;
+			}
 
-        .image-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
+			.image-card {
+				background-color: white;
+				border-radius: 10px;
+				overflow: hidden;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+			}
 
-        .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
+			.image-card:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+			}
 
-        .image-container {
-            position: relative;
-            padding-top: 100%; /* Default for 1:1 */
-            background-color: #f5f5f5;
-        }
+			.image-container {
+				position: relative;
+				padding-top: 100%;
+				background-color: #f5f5f5;
+			}
 
-        /* Aspect ratio adjustments */
-        .image-container[data-aspect-ratio="9:16"] {
-            padding-top: 177.78%; /* 16:9 = 9/16 = 0.5625 (56.25%) */
-        }
+			.generated-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
 
-        .image-container[data-aspect-ratio="16:9"] {
-            padding-top: 56.25%; /* 9:16 = 16/9 ≈ 1.778 (177.78%) */
-        }
+			.image-actions {
+				padding: 1rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
 
-        .generated-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+			.download-btn {
+				background-color: var(--primary-color);
+				color: white;
+				border: none;
+				padding: 0.5rem 1rem;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
 
-        .image-actions {
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+			.download-btn:hover {
+				background-color: #5d3ac7;
+			}
 
-        .download-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+			.error-message {
+				grid-column: 1 / -1;
+				background-color: var(--danger-color);
+				color: white;
+				padding: 1rem;
+				border-radius: 10px;
+				margin-bottom: 1rem;
+				display: none;
+			}
 
-        .download-btn:hover {
-            background-color: #5d3ac7;
-        }
+			.success-message {
+				grid-column: 1 / -1;
+				background-color: var(--success-color);
+				color: white;
+				padding: 1rem;
+				border-radius: 10px;
+				margin-bottom: 1rem;
+				display: none;
+			}
 
-        .error-message {
-            grid-column: 1 / -1;
-            background-color: var(--danger-color);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: none;
-        }
+		  footer {
+		text-align: center;
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+		border-top: 2px solid rgba(0, 0, 0, 0.1);
+		color: var(--dark-color);
+		opacity: 0.9;
+	}
 
-        .success-message {
-            grid-column: 1 / -1;
-            background-color: var(--success-color);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: none;
-        }
+	.footer-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
 
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid rgba(0, 0, 0, 0.1);
-            color: var(--dark-color);
-            opacity: 0.7;
-        }
+	.footer-links {
+		display: flex;
+		gap: 1rem;
+	}
 
-        @media (max-width: 576px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>DEVAKA AI GENERATOR</h1>
-            <p class="subtitle">Create stunning AI-generated images with powerful customization options</p>
-        </header>
+	.footer-links a {
+		color: var(--dark-color);
+		opacity: 0.7;
+		transition: all 0.3s ease;
+	}
 
-        <div class="generator-form">
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
+	.footer-links a:hover {
+		opacity: 1;
+		transform: translateY(-2px);
+		color: var(--primary-color);
+	}
 
-            <div class="form-group prompt-container">
-                <label for="prompt">Image Prompt *</label>
-                <textarea id="prompt" placeholder="Describe the image you want to generate (e.g. 'A majestic lion in the savannah at sunset')" required></textarea>
-            </div>
+	.footer-links svg {
+		width: 20px;
+		height: 20px;
+	}
+	.footer-links a[aria-label="Facebook"]:hover {
+		color: #1877F2; /* Warna biru Facebook */
+	}
 
-            <div class="form-group">
-                <label for="model">AI Model</label>
-                <select id="model">
-                    <option value="stable-diffusion">Stable Diffusion</option>
-                    <option value="dall-e">DALL-E</option>
-                    <option value="midjourney">Midjourney Style</option>
-                </select>
-            </div>
+			@media (max-width: 576px) {
+				body {
+					padding: 1rem;
+				}
+				
+				.container {
+					padding: 1rem;
+				}
+				
+				h1 {
+					font-size: 2rem;
+				}
+				
+				.image-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>DEVAKA AI GENERATOR</h1>
+				<p class="subtitle">Create stunning AI-generated images with powerful customization options</p>
+			</header>
 
-            <div class="form-group">
-                <label for="style">Style</label>
-                <select id="style">
-                    <option value="realistic">Realistic</option>
-                    <option value="anime">Anime Style</option>
-                    <option value="digital-art">Digital Art</option>
-                    <option value="photography">Photography</option>
-                    <option value="watercolor">Watercolor</option>
-                    <option value="3d-render">3D Render</option>
-                    <option value="fantasy-art">Fantasy Art</option>
-                    <option value="oil-painting">Oil Painting</option>
-                </select>
-            </div>
+			<div class="generator-form">
+				<div class="error-message" id="errorMessage"></div>
+				<div class="success-message" id="successMessage"></div>
 
-            <div class="form-group">
-                <label for="quality">Quality</label>
-                <select id="quality">
-                    <option value="standard">Standard</option>
-                    <option value="high">High Resolution</option>
-                    <option value="ultra">Ultra HD</option>
-                </select>
-            </div>
+				<div class="form-group prompt-container">
+					<label for="prompt">Image Prompt *</label>
+					<textarea id="prompt" placeholder="Describe the image you want to generate (e.g. 'A majestic lion in the savannah at sunset')" required></textarea>
+				</div>
 
-            <div class="form-group">
-                <label for="aspect-ratio">Aspect Ratio</label>
-                <select id="aspect-ratio">
-                    <option value="1:1">Square (1:1)</option>
-                    <option value="9:16">Portrait (9:16)</option>
-                    <option value="16:9">Landscape (16:9)</option>
-                </select>
-            </div>
+				<div class="form-group">
+					<label for="model">AI Model</label>
+					<select id="model">
+						<option value="stable-diffusion">Stable Diffusion</option>
+						<option value="dall-e">DALL-E</option>
+						<option value="midjourney">Midjourney Style</option>
+					</select>
+				</div>
 
-            <div class="form-group">
-                <label>Enhancements</label>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="enhance" checked>
-                    <label for="enhance">Enhance Image Quality</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="nologo" checked>
-                    <label for="nologo">Remove Watermark</label>
-                </div>
-            </div>
+				<div class="form-group">
+					<label for="style">Style</label>
+					<select id="style">
+						<option value="realistic">Realistic</option>
+						<option value="anime">Anime Style</option>
+						<option value="digital-art">Digital Art</option>
+						<option value="photography">Photography</option>
+						<option value="watercolor">Watercolor</option>
+						<option value="3d-render">3D Render</option>
+						<option value="fantasy-art">Fantasy Art</option>
+						<option value="oil-painting">Oil Painting</option>
+					</select>
+				</div>
 
-            <button class="generate-btn" id="generateBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9z"></path>
-                    <path d="M12 3v6l3-3"></path>
-                </svg>
-                Generate Image
-            </button>
+				<div class="form-group">
+					<label for="quality">Quality</label>
+					<select id="quality">
+						<option value="standard">Standard</option>
+						<option value="high">High Resolution</option>
+						<option value="ultra">Ultra HD</option>
+					</select>
+				</div>
 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Generating your image... This may take 20-30 seconds.</p>
-            </div>
-        </div>
+				<div class="form-group">
+					<label for="aspect-ratio">Aspect Ratio</label>
+					<select id="aspect-ratio">
+						<option value="1:1">Square (1:1)</option>
+						<option value="9:16">Portrait (9:16)</option>
+						<option value="16:9">Landscape (16:9)</option>
+					</select>
+				</div>
 
-        <div class="results" id="results" style="display: none;">
-            <h2 class="results-title">Generated Images</h2>
-            <div class="image-grid" id="imageGrid"></div>
-        </div>
+				<div class="form-group">
+					<label>Enhancements</label>
+					<div class="checkbox-group">
+						<input type="checkbox" id="enhance" checked>
+						<label for="enhance">Enhance Image Quality</label>
+					</div>
+					<div class="checkbox-group">
+						<input type="checkbox" id="nologo" checked>
+						<label for="nologo">Remove Watermark</label>
+					</div>
+				</div>
 
-        <footer>
-            <p>DEVAKA AI GENERATOR &copy; 2023 | Powered by Pollinations.ai API</p>
-        </footer>
-    </div>
+				<button class="generate-btn" id="generateBtn">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9z"></path>
+						<path d="M12 3v6l3-3"></path>
+					</svg>
+					Generate Image
+				</button>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const generateBtn = document.getElementById('generateBtn');
-            const promptInput = document.getElementById('prompt');
-            const modelSelect = document.getElementById('model');
-            const styleSelect = document.getElementById('style');
-            const qualitySelect = document.getElementById('quality');
-            const aspectRatioSelect = document.getElementById('aspect-ratio');
-            const enhanceCheckbox = document.getElementById('enhance');
-            const nologoCheckbox = document.getElementById('nologo');
-            const loadingElement = document.getElementById('loading');
-            const imageGrid = document.getElementById('imageGrid');
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            const resultsSection = document.getElementById('results');
+				<div class="loading" id="loading">
+					<div class="spinner"></div>
+					<p>Generating your image... This may take 20-30 seconds.</p>
+				</div>
+			</div>
 
-            generateBtn.addEventListener('click', generateImage);
+			<div class="results" id="results" style="display: none;">
+				<h2 class="results-title">Generated Images</h2>
+				<div class="image-grid" id="imageGrid"></div>
+			</div>
 
-            async function generateImage() {
-                const prompt = promptInput.value.trim();
-                
-                // Validate prompt
-                if (!prompt) {
-                    showError('Please enter a prompt to generate an image.');
-                    return;
-                }
+		  <footer>
+		<div class="footer-content">
+			<p>&copy; <span id="currentYear"></span> DEVAKA AI GENERATOR | Powered by Pollinations.ai API</p>
+			<div class="footer-links">
+				<!-- Facebook -->
+				<a href="https://facebook.com/username" target="_blank" aria-label="Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+					</svg>
+				</a>
+				<!-- Twitter -->
+				<a href="#" target="_blank" aria-label="Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+					</svg>
+				</a>
+				<!-- Instagram -->
+				<a href="#" target="_blank" aria-label="Instagram">
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+						<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+						<line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+					</svg>
+				</a>
+			</div>
+		</div>
+	</footer>
+		</div>
 
-                if (prompt.length < 5) {
-                    showError('Prompt should be at least 5 characters long.');
-                    return;
-                }
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const generateBtn = document.getElementById('generateBtn');
+				const promptInput = document.getElementById('prompt');
+				const modelSelect = document.getElementById('model');
+				const styleSelect = document.getElementById('style');
+				const qualitySelect = document.getElementById('quality');
+				const aspectRatioSelect = document.getElementById('aspect-ratio');
+				const enhanceCheckbox = document.getElementById('enhance');
+				const nologoCheckbox = document.getElementById('nologo');
+				const loadingElement = document.getElementById('loading');
+				const imageGrid = document.getElementById('imageGrid');
+				const errorMessage = document.getElementById('errorMessage');
+				const successMessage = document.getElementById('successMessage');
+				const resultsSection = document.getElementById('results');
 
-                // Hide previous messages and results
-                hideMessages();
-                resultsSection.style.display = 'none';
+				generateBtn.addEventListener('click', generateImage);
 
-                // Show loading
-                loadingElement.style.display = 'block';
-                generateBtn.disabled = true;
+				async function generateImage() {
+					const prompt = promptInput.value.trim();
+					
+					// Validate prompt
+					if (!prompt) {
+						showError('Please enter a prompt to generate an image.');
+						return;
+					}
 
-                try {
-                    // Build the enhanced prompt
-                    let fullPrompt = prompt;
-                    
-                    // Add style if selected
-                    if (styleSelect.value && styleSelect.value !== 'realistic') {
-                        fullPrompt += `, ${styleSelect.value}`;
-                    }
-                    
-                    // Determine dimensions based on aspect ratio and quality
-                    let width, height;
-                    switch (aspectRatioSelect.value) {
-                        case '1:1': // Square
-                            width = qualitySelect.value === 'ultra' ? 1024 : 
-                                    qualitySelect.value === 'high' ? 768 : 512;
-                            height = width;
-                            break;
-                        case '9:16': // Portrait
-                            width = qualitySelect.value === 'ultra' ? 540 : 
-                                    qualitySelect.value === 'high' ? 405 : 360;
-                            height = qualitySelect.value === 'ultra' ? 960 : 
-                                     qualitySelect.value === 'high' ? 720 : 640;
-                            break;
-                        case '16:9': // Landscape
-                            width = qualitySelect.value === 'ultra' ? 1280 : 
-                                    qualitySelect.value === 'high' ? 1024 : 854;
-                            height = qualitySelect.value === 'ultra' ? 720 : 
-                                     qualitySelect.value === 'high' ? 576 : 480;
-                            break;
-                        default:
-                            width = 512;
-                            height = 512;
-                    }
-                    
-                    // Add quality descriptors
-                    if (qualitySelect.value === 'high') {
-                        fullPrompt += ', high resolution, detailed';
-                    } else if (qualitySelect.value === 'ultra') {
-                        fullPrompt += ', ultra HD, 8k resolution, extremely detailed';
-                    }
-                    
-                    // Add enhancements
-                    if (enhanceCheckbox.checked) {
-                        fullPrompt += ', professional photography, sharp focus';
-                    }
-                    
-                    // Add model-specific prompts
-                    if (modelSelect.value === 'dall-e') {
-                        fullPrompt += ', DALL-E style';
-                    } else if (modelSelect.value === 'midjourney') {
-                        fullPrompt += ', Midjourney style';
-                    }
-                    
-                    // Encode the prompt for URL
-                    const encodedPrompt = encodeURIComponent(fullPrompt);
-                    
-                    // Build the base API URL with width & height
-                    let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}`;
-                    
-                    // Add nologo parameter if checked
-                    if (nologoCheckbox.checked) {
-                        apiUrl += '&nologo=true';
-                    }
-                    
-                    // Generate 4 different images with random seeds
-                    const imageUrls = [];
-                    for (let i = 0; i < 4; i++) {
-                        const seed = Math.floor(Math.random() * 1000000);
-                        imageUrls.push(`${apiUrl}&seed=${seed}`);
-                    }
-                    
-                    // Clear previous images
-                    imageGrid.innerHTML = '';
-                    
-                    // Create and load image cards
-                    const imageLoadPromises = imageUrls.map(url => {
-                        return new Promise((resolve) => {
-                            const imageCard = document.createElement('div');
-                            imageCard.className = 'image-card';
-                            
-                            const imageContainer = document.createElement('div');
-                            imageContainer.className = 'image-container';
-                            imageContainer.setAttribute('data-aspect-ratio', aspectRatioSelect.value);
-                            
-                            const img = new Image();
-                            img.className = 'generated-image';
-                            img.alt = 'Generated image from prompt: ' + prompt;
-                            
-                            img.onload = () => {
-                                const imageActions = document.createElement('div');
-                                imageActions.className = 'image-actions';
-                                
-                                const downloadBtn = document.createElement('button');
-                                downloadBtn.className = 'download-btn';
-                                downloadBtn.innerHTML = `
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="7 10 12 15 17 10"></polyline>
-                                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                                    </svg>
-                                    Download
-                                `;
-                                
-                                downloadBtn.addEventListener('click', () => downloadImage(url, prompt));
-                                
-                                imageActions.appendChild(downloadBtn);
-                                imageContainer.appendChild(img);
-                                imageCard.appendChild(imageContainer);
-                                imageCard.appendChild(imageActions);
-                                imageGrid.appendChild(imageCard);
-                                
-                                resolve();
-                            };
-                            
-                            img.onerror = () => {
-                                console.error('Failed to load image:', url);
-                                resolve(); // Resolve anyway to continue
-                            };
-                            
-                            img.src = url;
-                        });
-                    });
-                    
-                    // Wait for all images to load
-                    await Promise.all(imageLoadPromises);
-                    
-                    showSuccess('Images generated successfully!');
-                    resultsSection.style.display = 'block';
-                    
-                } catch (error) {
-                    console.error('Error generating image:', error);
-                    showError('Failed to generate image. Please try again with a different prompt.');
-                } finally {
-                    loadingElement.style.display = 'none';
-                    generateBtn.disabled = false;
-                }
-            }
-            
-            function downloadImage(url, prompt) {
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.blob();
-                    })
-                    .then(blob => {
-                        const blobUrl = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = blobUrl;
-                        
-                        // Create a filename from the prompt
-                        let filename = prompt.toLowerCase()
-                            .replace(/[^a-z0-9\s]/g, '')
-                            .replace(/\s+/g, '-')
-                            .substring(0, 50);
-                        filename = filename || 'devala-ai-image';
-                        filename += '.jpg';
-                        
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        window.URL.revokeObjectURL(blobUrl);
-                        
-                        showSuccess('Download started!');
-                    })
-                    .catch(error => {
-                        console.error('Download error:', error);
-                        showError('Failed to download image. Please try again.');
-                    });
-            }
-            
-            function showError(message) {
-                errorMessage.textContent = message;
-                errorMessage.style.display = 'block';
-                setTimeout(hideMessages, 5000);
-            }
-            
-            function showSuccess(message) {
-                successMessage.textContent = message;
-                successMessage.style.display = 'block';
-                setTimeout(hideMessages, 3000);
-            }
-            
-            function hideMessages() {
-                errorMessage.style.display = 'none';
-                successMessage.style.display = 'none';
-            }
-        });
-    </script>
-</body>
-</html>
+					if (prompt.length < 5) {
+						showError('Prompt should be at least 5 characters long.');
+						return;
+					}
+
+					// Hide previous messages and results
+					hideMessages();
+					resultsSection.style.display = 'none';
+
+					// Show loading
+					loadingElement.style.display = 'block';
+					generateBtn.disabled = true;
+
+					try {
+						// Build the enhanced prompt
+						let fullPrompt = prompt;
+						
+						// Add style if selected
+						if (styleSelect.value && styleSelect.value !== 'realistic') {
+							fullPrompt += `, ${styleSelect.value}`;
+						}
+						
+						// Add quality descriptors
+						if (qualitySelect.value === 'high') {
+							fullPrompt += ', high resolution, detailed';
+						} else if (qualitySelect.value === 'ultra') {
+							fullPrompt += ', ultra HD, 8k resolution, extremely detailed';
+						}
+						
+						// Add enhancements
+						if (enhanceCheckbox.checked) {
+							fullPrompt += ', professional photography, sharp focus';
+						}
+						
+						// Add model-specific prompts
+						if (modelSelect.value === 'dall-e') {
+							fullPrompt += ', DALL-E style';
+						} else if (modelSelect.value === 'midjourney') {
+							fullPrompt += ', Midjourney style';
+						}
+						
+						// Encode the prompt for URL
+						const encodedPrompt = encodeURIComponent(fullPrompt);
+						
+						// Determine dimensions based on aspect ratio
+						let width, height;
+						switch (aspectRatioSelect.value) {
+							case '1:1':
+								width = 512;
+								height = 512;
+								break;
+							case '9:16':
+								width = 360;
+								height = 640;
+								break;
+							case '16:9':
+								width = 1024;
+								height = 576;
+								break;
+							default:
+								width = 512;
+								height = 512;
+						}
+						
+						// Build the base API URL
+						let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}`;
+						
+						// Add parameters
+						apiUrl += `?width=${width}&height=${height}`;
+						
+						// Add nologo parameter if checked
+						if (nologoCheckbox.checked) {
+							apiUrl += '&nologo=true';
+						}
+						
+						// Generate 4 different images with random seeds
+						const imageUrls = [];
+						for (let i = 0; i < 4; i++) {
+							const seed = Math.floor(Math.random() * 1000000);
+							imageUrls.push(`${apiUrl}&seed=${seed}`);
+						}
+						
+						// Clear previous images
+						imageGrid.innerHTML = '';
+						
+						// Create and load image cards
+						const imageLoadPromises = imageUrls.map(url => {
+							return new Promise((resolve) => {
+								const imageCard = document.createElement('div');
+								imageCard.className = 'image-card';
+								
+								const imageContainer = document.createElement('div');
+								imageContainer.className = 'image-container';
+								
+								const img = new Image();
+								img.className = 'generated-image';
+								img.alt = 'Generated image from prompt: ' + prompt;
+								
+								img.onload = () => {
+									const imageActions = document.createElement('div');
+									imageActions.className = 'image-actions';
+									
+									const downloadBtn = document.createElement('button');
+									downloadBtn.className = 'download-btn';
+									downloadBtn.innerHTML = `
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+											<polyline points="7 10 12 15 17 10"></polyline>
+											<line x1="12" y1="15" x2="12" y2="3"></line>
+										</svg>
+										Download
+									`;
+									
+									downloadBtn.addEventListener('click', () => downloadImage(url, prompt));
+									
+									imageActions.appendChild(downloadBtn);
+									imageContainer.appendChild(img);
+									imageCard.appendChild(imageContainer);
+									imageCard.appendChild(imageActions);
+									imageGrid.appendChild(imageCard);
+									
+									resolve();
+								};
+								
+								img.onerror = () => {
+									console.error('Failed to load image:', url);
+									resolve(); // Resolve anyway to continue
+								};
+								
+								img.src = url;
+							});
+						});
+						
+						// Wait for all images to load
+						await Promise.all(imageLoadPromises);
+						
+						showSuccess('Images generated successfully!');
+						resultsSection.style.display = 'block';
+						
+					} catch (error) {
+						console.error('Error generating image:', error);
+						showError('Failed to generate image. Please try again with a different prompt.');
+					} finally {
+						loadingElement.style.display = 'none';
+						generateBtn.disabled = false;
+					}
+				}
+				
+				function downloadImage(url, prompt) {
+					fetch(url)
+						.then(response => {
+							if (!response.ok) {
+								throw new Error('Network response was not ok');
+							}
+							return response.blob();
+						})
+						.then(blob => {
+							const blobUrl = window.URL.createObjectURL(blob);
+							const a = document.createElement('a');
+							a.href = blobUrl;
+							
+							// Create a filename from the prompt
+							let filename = prompt.toLowerCase()
+								.replace(/[^a-z0-9\s]/g, '')
+								.replace(/\s+/g, '-')
+								.substring(0, 50);
+							filename = filename || 'devala-ai-image';
+							filename += '.jpg';
+							
+							a.download = filename;
+							document.body.appendChild(a);
+							a.click();
+							document.body.removeChild(a);
+							window.URL.revokeObjectURL(blobUrl);
+							
+							showSuccess('Download started!');
+						})
+						.catch(error => {
+							console.error('Download error:', error);
+							showError('Failed to download image. Please try again.');
+						});
+				}
+				
+				function showError(message) {
+					errorMessage.textContent = message;
+					errorMessage.style.display = 'block';
+					setTimeout(hideMessages, 5000);
+				}
+				
+				function showSuccess(message) {
+					successMessage.textContent = message;
+					successMessage.style.display = 'block';
+					setTimeout(hideMessages, 3000);
+				}
+				
+				function hideMessages() {
+					errorMessage.style.display = 'none';
+					successMessage.style.display = 'none';
+				}
+			});
+			// Update tahun otomatis di footer
+	document.getElementById('currentYear').textContent = new Date().getFullYear();
+		</script>
+	</body>
+	</html>
