@@ -1,59 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" id="html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVAKA AI - Advanced AI Image Generator</title>
+    <title>DEVAKA AI - Advanced AI Image & Text Generator</title>
     <style>
         :root {
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --dark: #F7FFF7;
-            --darker: #E0F4E0;
-            --light: #292F36;
-            --lighter: #1A1F24;
-            --accent: #FFE66D;
-            --success: #6BCB77;
-            --warning: #FFD166;
-            --danger: #EF476F;
-            --border-radius: 12px;
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --lighter: #ffffff;
+            --gray: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
             --transition: all 0.3s ease;
-            --shadow: 0 8px 20px rgba(0,0,0,0.1);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.3);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
         }
 
         [data-theme="dark"] {
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --dark: #292F36;
-            --darker: #1A1F24;
-            --light: #F7FFF7;
-            --lighter: #E0F4E0;
-            --accent: #FFE66D;
+            --primary: #8a63f5;
+            --secondary: #63f5e8;
+            --dark: #f8f9fa;
+            --darker: #e9ecef;
+            --light: #1a1a2e;
+            --lighter: #0f0f1a;
+            --gray: #adb5bd;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
         body {
-            background-color: var(--dark);
-            color: var(--light);
+            background-color: var(--light);
+            color: var(--dark);
+            transition: var(--transition);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1400px;
+            width: 95%;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2rem 0;
         }
 
         header {
@@ -61,7 +61,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            position: relative;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo {
@@ -70,287 +75,289 @@
             gap: 1rem;
         }
 
-        .logo-text {
-            font-size: 3rem;
+        .logo h1 {
+            font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
             letter-spacing: 1px;
-            font-family: 'Poppins', sans-serif;
-            text-transform: uppercase;
-            -webkit-text-stroke: 1px rgba(0,0,0,0.1);
         }
 
-        .logo-text::after {
+        .logo h1::after {
             content: '';
             position: absolute;
-            left: 0;
             bottom: -5px;
+            left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 3px;
         }
 
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .theme-toggle {
-            background: var(--darker);
-            border: 2px solid var(--primary);
-            color: var(--light);
+            background: var(--primary);
+            color: white;
+            border: none;
             padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             transition: var(--transition);
-            font-weight: 600;
         }
 
         .theme-toggle:hover {
-            background: rgba(255, 107, 107, 0.1);
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);
+            background: var(--secondary);
+            transform: translateY(-2px);
         }
 
-        .main {
+        .language-toggle {
+            background: transparent;
+            color: var(--dark);
+            border: 1px solid var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .language-toggle {
+            color: var(--lighter);
+            border: 1px solid var(--lighter);
+        }
+
+        .language-toggle:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
 
-        @media (max-width: 1024px) {
-            .main {
+        @media (max-width: 1200px) {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .control-panel {
-            background: var(--darker);
+        .input-section {
+            background: var(--lighter);
+            padding: 2rem;
             border-radius: var(--border-radius);
-            padding: 1.5rem;
             box-shadow: var(--shadow);
-            border: 2px solid rgba(255, 107, 107, 0.1);
-            position: relative;
-            overflow: hidden;
+            transition: var(--transition);
         }
 
-        .control-panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(78, 205, 196, 0.05));
-            pointer-events: none;
+        [data-theme="dark"] .input-section {
+            box-shadow: var(--shadow-lg);
         }
 
-        .panel-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: 700;
         }
 
-        .panel-title svg {
-            width: 20px;
-            height: 20px;
+        .section-title svg {
+            width: 24px;
+            height: 24px;
         }
 
-        .form-group {
+        .prompt-area {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            resize: vertical;
+            transition: var(--transition);
+            background: var(--lighter);
+            color: var(--dark);
+        }
+
+        .prompt-area:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
+        }
+
+        .negative-prompt-area {
+            width: 100%;
+            min-height: 80px;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            resize: vertical;
+            transition: var(--transition);
+            background: var(--lighter);
+            color: var(--dark);
+        }
+
+        .negative-prompt-area:focus {
+            outline: none;
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        label {
+        .setting-group {
+            margin-bottom: 1rem;
+        }
+
+        .setting-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            color: var(--light);
-            opacity: 0.9;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--dark);
         }
 
-        .prompt-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 1rem;
-            background: rgba(255,255,255,0.8);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            border-radius: var(--border-radius);
+        [data-theme="dark"] .setting-group label {
             color: var(--lighter);
-            resize: vertical;
-            transition: var(--transition);
-            font-weight: 500;
         }
 
-        .prompt-textarea:focus {
+        .setting-group select, 
+        .setting-group input[type="range"],
+        .setting-group input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius-sm);
+            background: var(--lighter);
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .setting-group select:focus, 
+        .setting-group input[type="range"]:focus,
+        .setting-group input[type="number"]:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .negative-prompt {
-            width: 100%;
-            min-height: 60px;
-            padding: 0.75rem;
-            background: rgba(255,255,255,0.8);
-            border: 2px solid rgba(239, 71, 111, 0.3);
-            border-radius: var(--border-radius);
-            color: var(--lighter);
-            resize: vertical;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .negative-prompt:focus {
-            outline: none;
-            border-color: var(--danger);
-            box-shadow: 0 0 15px rgba(239, 71, 111, 0.3);
-        }
-
-        select, input[type="range"] {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(255,255,255,0.8);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            border-radius: var(--border-radius);
-            color: var(--lighter);
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .range-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
         }
 
         .range-value {
-            min-width: 50px;
+            display: inline-block;
+            width: 50px;
             text-align: center;
-            background: rgba(255, 107, 107, 0.1);
-            padding: 0.25rem 0.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
+            margin-left: 0.5rem;
+            font-weight: bold;
             color: var(--primary);
         }
 
-        input[type="range"] {
-            -webkit-appearance: none;
-            height: 10px;
-            background: rgba(255, 107, 107, 0.1);
-            border-radius: 5px;
-            flex-grow: 1;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
-        }
-
-        .checkbox-group {
+        .aspect-ratio-buttons {
             display: flex;
-            align-items: center;
             gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        input[type="checkbox"] {
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: rgba(255,255,255,0.8);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            border-radius: 4px;
+        .aspect-ratio-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
-            position: relative;
             transition: var(--transition);
+            font-size: 0.8rem;
         }
 
-        input[type="checkbox"]:checked {
+        .aspect-ratio-btn.active {
             background: var(--primary);
+            color: white;
             border-color: var(--primary);
         }
 
-        input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 0.8rem;
-            font-weight: bold;
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .btn {
             padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-sm);
             border: none;
-            border-radius: var(--border-radius);
-            font-weight: 700;
             cursor: pointer;
+            font-weight: 600;
             transition: var(--transition);
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary);
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
 
         .btn-primary:hover {
+            background: var(--secondary);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: var(--shadow);
         }
 
         .btn-secondary {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            background: var(--gray);
+            color: white;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 107, 107, 0.2);
+            background: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .btn-danger {
-            background: rgba(239, 71, 111, 0.1);
-            color: var(--danger);
-            border: 2px solid var(--danger);
+            background: var(--danger);
+            color: white;
         }
 
         .btn-danger:hover {
-            background: rgba(239, 71, 111, 0.2);
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+        .output-section {
+            background: var(--lighter);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
-        .results-container {
+        [data-theme="dark"] .output-section {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
@@ -358,84 +365,118 @@
         }
 
         .result-card {
-            background: var(--darker);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 2px solid rgba(255, 107, 107, 0.1);
-            transition: var(--transition);
             position: relative;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
 
         .result-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
-            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .result-image {
+        .result-img {
             width: 100%;
-            height: 250px;
+            height: 300px;
             object-fit: cover;
             display: block;
         }
 
         .result-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
             display: flex;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: rgba(41, 47, 54, 0.7);
+            justify-content: space-around;
+            transform: translateY(100%);
+            transition: var(--transition);
         }
 
-        .result-prompt {
-            padding: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--light);
-            opacity: 0.8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .result-card:hover .result-actions {
+            transform: translateY(0);
         }
 
-        .history-container {
+        .result-action-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .result-action-btn:hover {
+            color: var(--secondary);
+        }
+
+        .history-section {
             margin-top: 2rem;
+            background: var(--lighter);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .history-section {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-list {
             max-height: 300px;
             overflow-y: auto;
-            background: var(--darker);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            border: 2px solid rgba(255, 107, 107, 0.1);
+            margin-top: 1rem;
+            padding-right: 0.5rem;
         }
 
         .history-item {
             padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: rgba(255, 107, 107, 0.05);
-            border-radius: var(--border-radius);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: var(--transition);
-            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [data-theme="dark"] .history-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .history-item:hover {
-            background: rgba(255, 107, 107, 0.1);
+            background: rgba(110, 69, 226, 0.1);
+            border-radius: var(--border-radius-sm);
         }
 
         .history-item:last-child {
-            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .history-item-time {
+            font-size: 0.7rem;
+            color: var(--gray);
         }
 
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(41, 47, 54, 0.95);
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
@@ -447,33 +488,28 @@
             pointer-events: all;
         }
 
-        .loading-text {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-top: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
-            animation: pulse 2s infinite;
-            font-family: 'Poppins', sans-serif;
-            text-transform: uppercase;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-
-        .spinner {
+        .loading-spinner {
             width: 80px;
             height: 80px;
-            border: 8px solid rgba(255, 107, 107, 0.1);
+            border: 8px solid rgba(255, 255, 255, 0.1);
             border-top: 8px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+
+        .loading-text::after {
+            content: '';
+            animation: dots 1.5s infinite steps(4);
+            position: absolute;
         }
 
         @keyframes spin {
@@ -481,62 +517,64 @@
             100% { transform: rotate(360deg); }
         }
 
-        .aspect-ratio-info {
-            font-size: 0.9rem;
-            color: var(--primary);
-            margin-top: 0.5rem;
-            text-align: right;
-            font-weight: 600;
+        @keyframes dots {
+            0%, 100% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
         }
 
-        .aspect-ratio-presets {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
         }
 
-        .aspect-ratio-btn {
-            padding: 0.25rem 0.5rem;
-            background: rgba(255, 107, 107, 0.1);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            border-radius: 4px;
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: var(--lighter);
+            text-align: center;
+            border-radius: var(--border-radius-sm);
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
             font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
+            font-weight: normal;
         }
 
-        .aspect-ratio-btn:hover {
-            background: rgba(255, 107, 107, 0.2);
-        }
-
-        .aspect-ratio-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
         .advanced-settings {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            margin-top: 1rem;
+            transition: max-height 0.3s ease-out;
         }
 
         .advanced-settings.active {
-            max-height: 500px;
+            max-height: 1000px;
+            margin-top: 1rem;
         }
 
         .toggle-advanced {
-            background: none;
+            background: transparent;
             border: none;
             color: var(--primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
-            margin-top: 1rem;
             font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         .toggle-advanced svg {
@@ -547,82 +585,112 @@
             transform: rotate(180deg);
         }
 
-        .language-switcher {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .lang-btn {
-            background: rgba(255, 107, 107, 0.1);
-            border: none;
-            color: var(--light);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            font-weight: 600;
-        }
-
-        .lang-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .social-share {
+        .share-buttons {
             display: flex;
             gap: 0.5rem;
             margin-top: 1rem;
         }
 
         .share-btn {
-            background: rgba(255, 107, 107, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
             border: none;
-            color: var(--light);
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .share-twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-facebook {
+            background: #4267B2;
+            color: white;
+        }
+
+        .share-instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+            color: white;
+        }
+
+        .share-whatsapp {
+            background: #25D366;
+            color: white;
         }
 
         .share-btn:hover {
-            background: rgba(255, 107, 107, 0.2);
+            opacity: 0.9;
             transform: translateY(-2px);
         }
 
-        .share-btn svg {
-            width: 16px;
-            height: 16px;
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
         }
 
-        .copyright {
-            margin-top: 3rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: rgba(41, 47, 54, 0.5);
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            margin-top: 0.5rem;
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .logo-text {
-                font-size: 2rem;
+            .logo h1 {
+                font-size: 1.8rem;
             }
             
-            .btn-group {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
             }
             
-            .results-container {
-                grid-template-columns: 1fr;
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
+            
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .share-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--lighter);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
         }
     </style>
 </head>
@@ -630,808 +698,891 @@
     <div class="container">
         <header>
             <div class="logo">
-                <div class="logo-text">DEVAKA AI</div>
+                <h1>DEVAKA AI</h1>
             </div>
-            <div class="language-switcher">
-                <button class="lang-btn active" data-lang="en">EN</button>
-                <button class="lang-btn" data-lang="id">ID</button>
+            <div class="controls">
+                <button id="themeToggle" class="theme-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+                    </svg>
+                    <span id="themeText">Dark Mode</span>
+                </button>
+                <button id="languageToggle" class="language-toggle">
+                    <span id="languageText">EN/ID</span>
+                </button>
             </div>
-            <button class="theme-toggle" id="themeToggle">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <span data-i18n="toggle_theme">Toggle Theme</span>
-            </button>
         </header>
 
-        <main class="main">
-            <div class="control-panel">
-                <div class="form-group">
-                    <label for="prompt" data-i18n="prompt_label">Prompt</label>
-                    <textarea id="prompt" class="prompt-textarea" placeholder="Describe the image you want to generate..." data-i18n-ph="prompt_placeholder"></textarea>
+        <main class="main-grid">
+            <section class="input-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    <span id="promptTitle">Image Prompt</span>
+                </h2>
+                <textarea id="promptInput" class="prompt-area" placeholder="Describe the image you want to generate..."></textarea>
+                
+                <div class="setting-group">
+                    <label for="negativePrompt">
+                        <span id="negativePromptLabel">Negative Prompt</span>
+                        <span class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                            </svg>
+                            <span class="tooltiptext" id="negativePromptTooltip">Specify what you don't want to appear in the image</span>
+                        </span>
+                    </label>
+                    <textarea id="negativePrompt" class="negative-prompt-area" placeholder="Things you want to exclude from the image..."></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="negativePrompt" data-i18n="negative_prompt_label">Negative Prompt</label>
-                    <textarea id="negativePrompt" class="negative-prompt" placeholder="What you don't want in the image..." data-i18n-ph="negative_prompt_placeholder"></textarea>
-                </div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label for="aiModel">
+                            <span id="modelLabel">AI Model</span>
+                        </label>
+                        <select id="aiModel">
+                            <option value="default">Default</option>
+                            <option value="dalle3">DALL-E 3</option>
+                            <option value="midjourney">Midjourney</option>
+                            <option value="stablediffusion">Stable Diffusion</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="model" data-i18n="model_label">AI Model</label>
-                    <select id="model">
-                        <option value="dall-e-3">DALL-E 3</option>
-                        <option value="midjourney">Midjourney</option>
-                        <option value="stable-diffusion">Stable Diffusion</option>
-                        <option value="flux">Flux</option>
-                        <option value="flux-dev">Flux Dev</option>
-                        <option value="flux-pro">Flux Pro</option>
-                        <option value="gpt-4.1-mini">GPT-4.1 mini</option>
-                        <option value="gpt-4.1-nano">GPT-4.1 nano</option>
-                    </select>
-                </div>
+                    <div class="setting-group">
+                        <label for="fluxVariation">
+                            <span id="fluxLabel">Flux Variation</span>
+                        </label>
+                        <select id="fluxVariation">
+                            <option value="default">Default</option>
+                            <option value="flux">Flux</option>
+                            <option value="fluxdev">Flux Dev</option>
+                            <option value="fluxpro">Flux Pro</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="nsfwToggle">
-                        <label for="nsfwToggle" data-i18n="nsfw_label">NSFW Content</label>
+                    <div class="setting-group">
+                        <label for="style">
+                            <span id="styleLabel">Style</span>
+                        </label>
+                        <select id="style">
+                            <option value="none">No Style</option>
+                            <option value="realistic">Realistic</option>
+                            <option value="digitalart">Digital Art</option>
+                            <option value="anime">Anime Style</option>
+                            <option value="painting">Painting</option>
+                            <option value="photography">Photography</option>
+                            <option value="watercolor">Watercolor</option>
+                            <option value="3drender">3D Render</option>
+                            <option value="surrealism">Surrealism</option>
+                            <option value="3ddisney">3D Disney Character</option>
+                            <option value="studioghibli">Studio Ghibli</option>
+                            <option value="ukiyoe">Ukiyo-e</option>
+                            <option value="lowbrow">Lowbrow Art</option>
+                            <option value="minimalism">Minimalism</option>
+                            <option value="kinetic">Kinetic Art</option>
+                            <option value="sumie">Sumi-e</option>
+                            <option value="claymation">Claymation</option>
+                            <option value="brutalism">Brutalism</option>
+                            <option value="stainedglass">Stained Glass</option>
+                            <option value="grunge">Grunge</option>
+                            <option value="horror">Horror</option>
+                            <option value="artdeco">Art Deco</option>
+                            <option value="fantasy">Fantasy Art</option>
+                            <option value="graffiti">Graffiti Art</option>
+                            <option value="pixelart">Pixel Art</option>
+                            <option value="steampunk">Steampunk</option>
+                            <option value="cyberpunk">Cyberpunk</option>
+                            <option value="abstract">Abstract</option>
+                            <option value="cartoon">Cartoon</option>
+                            <option value="vintage">Vintage</option>
+                            <option value="gothic">Gothic</option>
+                            <option value="lowpoly">Low Poly</option>
+                            <option value="popart">Pop Art</option>
+                            <option value="comicbook">Comic Book</option>
+                            <option value="chalkart">Chalk Art</option>
+                            <option value="neonnoir">Neon Noir</option>
+                            <option value="amigurumi">Amigurumi</option>
+                            <option value="origami">Origami</option>
+                            <option value="zentangle">Zentangle</option>
+                            <option value="glitchart">Glitch Art</option>
+                            <option value="synthwave">Synthwave</option>
+                            <option value="artnouveau">Art Nouveau</option>
+                            <option value="biomorphic">Biomorphic Art</option>
+                            <option value="cubism">Cubism</option>
+                            <option value="impressionism">Impressionism</option>
+                            <option value="psychedelic">Psychedelic</option>
+                            <option value="macabre">Macabre</option>
+                            <option value="dystopian">Dystopian</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="lightEnhancement">
+                            <span id="lightLabel">Light Enhancement</span>
+                        </label>
+                        <select id="lightEnhancement">
+                            <option value="none">None</option>
+                            <option value="hdrplus">HDR+</option>
+                            <option value="detailultra">Detail Ultra</option>
+                            <option value="cinematic">Cinematic</option>
+                            <option value="neonglow">Neon Glow</option>
+                            <option value="photorealistic">Photorealistic</option>
+                            <option value="dramalight">Drama Light</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="style" data-i18n="style_label">Style</label>
-                    <select id="style">
-                        <option value="" data-i18n="no_style">No Style</option>
-                        <option value="realistic" data-i18n="realistic">Realistic</option>
-                        <option value="digital-art" data-i18n="digital_art">Digital Art</option>
-                        <option value="anime" data-i18n="anime">Anime style</option>
-                        <option value="painting" data-i18n="painting">Painting</option>
-                        <option value="photography" data-i18n="photography">Photography</option>
-                        <option value="watercolor" data-i18n="watercolor">Watercolor</option>
-                        <option value="3d-render" data-i18n="3d_render">3D render</option>
-                        <option value="surrealism" data-i18n="surrealism">Surrealisme</option>
-                        <option value="3d-disney" data-i18n="3d_disney">3D Disney Character</option>
-                        <option value="studio-ghibli" data-i18n="studio_ghibli">Studio Ghibli</option>
-                        <option value="ukiyo-e" data-i18n="ukiyo_e">Ukiyo-e</option>
-                        <option value="lowbrow" data-i18n="lowbrow">Lowbrow Art</option>
-                        <option value="minimalism" data-i18n="minimalism">Minimalism</option>
-                        <option value="kinetic" data-i18n="kinetic">Kinetic Art</option>
-                        <option value="sumi-e" data-i18n="sumi_e">Sumi-e</option>
-                        <option value="claymation" data-i18n="claymation">Claymation</option>
-                        <option value="brutalism" data-i18n="brutalism">Brutalism</option>
-                        <option value="stained-glass" data-i18n="stained_glass">Stained Glass</option>
-                        <option value="grunge" data-i18n="grunge">Grunge</option>
-                        <option value="horror" data-i18n="horror">Horror</option>
-                        <option value="art-deco" data-i18n="art_deco">Art Deco</option>
-                        <option value="fantasy" data-i18n="fantasy">Fantasy Art</option>
-                        <option value="graffiti" data-i18n="graffiti">Graffiti Art</option>
-                        <option value="pixel" data-i18n="pixel">Pixel Art</option>
-                        <option value="steampunk" data-i18n="steampunk">Steampunk</option>
-                        <option value="cyberpunk" data-i18n="cyberpunk">Cyberpunk</option>
-                        <option value="abstract" data-i18n="abstract">Abstract</option>
-                        <option value="cartoon" data-i18n="cartoon">Cartoon</option>
-                        <option value="vintage" data-i18n="vintage">Vintage</option>
-                        <option value="gothic" data-i18n="gothic">Gothic</option>
-                        <option value="low-poly" data-i18n="low_poly">Low Poly</option>
-                        <option value="pop-art" data-i18n="pop_art">Pop Art</option>
-                        <option value="comic" data-i18n="comic">Comic Book</option>
-                        <option value="chalk" data-i18n="chalk">Chalk Art</option>
-                        <option value="neon-noir" data-i18n="neon_noir">Neon Noir</option>
-                        <option value="amigurumi" data-i18n="amigurumi">Amigurumi</option>
-                        <option value="origami" data-i18n="origami">Origami</option>
-                        <option value="zentangle" data-i18n="zentangle">Zentangle</option>
-                        <option value="glitch" data-i18n="glitch">Glitch Art</option>
-                        <option value="synthwave" data-i18n="synthwave">Synthwave</option>
-                        <option value="art-nouveau" data-i18n="art_nouveau">Art Nouveau</option>
-                        <option value="cubism" data-i18n="cubism">Cubism</option>
-                        <option value="impressionism" data-i18n="impressionism">Impressionism</option>
-                        <option value="psychedelic" data-i18n="psychedelic">Psychedelic</option>
-                        <option value="dystopian" data-i18n="dystopian">Dystopian</option>
-                    </select>
+                <div class="setting-group">
+                    <label>
+                        <span id="aspectLabel">Aspect Ratio</span>
+                    </label>
+                    <div class="aspect-ratio-buttons">
+                        <button class="aspect-ratio-btn active" data-ratio="1:1" data-width="1080" data-height="1080">Square 1:1</button>
+                        <button class="aspect-ratio-btn" data-ratio="9:16" data-width="1080" data-height="1920">Portrait 9:16</button>
+                        <button class="aspect-ratio-btn" data-ratio="16:9" data-width="1920" data-height="1080">Landscape 16:9</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="lightEnhance" data-i18n="light_enhance_label">Light Enhancement</label>
-                    <select id="lightEnhance">
-                        <option value="none" data-i18n="none">None</option>
-                        <option value="hdr+" data-i18n="hdr_plus">HDR+</option>
-                        <option value="detail-ultra" data-i18n="detail_ultra">Detail Ultra</option>
-                        <option value="cinematic" data-i18n="cinematic">Cinematic</option>
-                        <option value="neon-glow" data-i18n="neon_glow">Neon Glow</option>
-                        <option value="photorealistic" data-i18n="photorealistic">Photorealistic</option>
-                        <option value="drama-light" data-i18n="drama_light">Drama Light</option>
-                    </select>
+                <div class="setting-group">
+                    <label for="width">
+                        <span id="widthLabel">Width:</span> <span id="widthValue" class="range-value">1080</span>px
+                    </label>
+                    <input type="range" id="width" min="1080" max="2560" step="10" value="1080">
                 </div>
 
-                <div class="form-group">
-                    <label for="additionalFeatures" data-i18n="additional_features_label">Additional Features</label>
+                <div class="setting-group">
+                    <label for="height">
+                        <span id="heightLabel">Height:</span> <span id="heightValue" class="range-value">1080</span>px
+                    </label>
+                    <input type="range" id="height" min="1080" max="2560" step="10" value="1080">
+                </div>
+
+                <div class="setting-group">
+                    <label for="steps">
+                        <span id="stepsLabel">Steps:</span> <span id="stepsValue" class="range-value">50</span>
+                    </label>
+                    <input type="range" id="steps" min="20" max="100" step="5" value="50">
+                </div>
+
+                <div class="setting-group">
+                    <label for="additionalFeatures">
+                        <span id="featuresLabel">Additional Features</span>
+                    </label>
                     <select id="additionalFeatures">
-                        <option value="none" data-i18n="none">None</option>
-                        <option value="animation" data-i18n="animation">Animation</option>
-                        <option value="transparency" data-i18n="transparency">Transparency</option>
-                        <option value="tilt-shift" data-i18n="tilt_shift">Tilt-Shift</option>
-                        <option value="hologram" data-i18n="hologram">Hologram</option>
+                        <option value="none">None</option>
+                        <option value="animation">Animation</option>
+                        <option value="transparency">Transparency</option>
+                        <option value="tiltshift">Tilt-Shift</option>
+                        <option value="hologram">Hologram</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="width" data-i18n="width_label">Width: <span id="widthValue">1080</span>px</label>
-                    <div class="range-container">
-                        <input type="range" id="width" min="1080" max="2560" value="1080" step="10">
-                        <span class="range-value" id="widthDisplay">1080</span>
-                    </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="ultraEnhance">
+                        <span id="enhanceLabel">Ultra Enhance (High Detail)</span>
+                    </label>
                 </div>
 
-                <div class="form-group">
-                    <label for="height" data-i18n="height_label">Height: <span id="heightValue">1080</span>px</label>
-                    <div class="range-container">
-                        <input type="range" id="height" min="1080" max="2560" value="1080" step="10">
-                        <span class="range-value" id="heightDisplay">1080</span>
-                    </div>
-                    <div class="aspect-ratio-info" id="aspectRatioInfo">Aspect Ratio: Square (1:1)</div>
-                    <div class="aspect-ratio-presets">
-                        <button class="aspect-ratio-btn active" data-width="1080" data-height="1080">Square (1:1)</button>
-                        <button class="aspect-ratio-btn" data-width="1080" data-height="1920">Portrait (9:16)</button>
-                        <button class="aspect-ratio-btn" data-width="1920" data-height="1080">Landscape (16:9)</button>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="steps" data-i18n="steps_label">Steps: <span id="stepsValue">50</span></label>
-                    <div class="range-container">
-                        <input type="range" id="steps" min="20" max="100" value="50">
-                        <span class="range-value" id="stepsDisplay">50</span>
-                    </div>
-                </div>
-
-                <button class="toggle-advanced" id="toggleAdvanced">
-                    <span data-i18n="advanced_settings">Advanced Settings</span>
+                <button id="toggleAdvanced" class="toggle-advanced">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                     </svg>
+                    <span id="advancedLabel">Advanced Settings</span>
                 </button>
 
-                <div class="advanced-settings" id="advancedSettings">
-                    <div class="form-group">
-                        <label for="colorPalette" data-i18n="color_palette_label">Color Palette</label>
-                        <select id="colorPalette">
-                            <option value="default" data-i18n="default">Default</option>
-                            <option value="vibrant" data-i18n="vibrant">Vibrant</option>
-                            <option value="pastel" data-i18n="pastel">Pastel</option>
-                            <option value="monochrome" data-i18n="monochrome">Monochrome</option>
-                            <option value="warm" data-i18n="warm_tones">Warm Tones</option>
-                            <option value="cool" data-i18n="cool_tones">Cool Tones</option>
-                        </select>
-                    </div>
+                <div id="advancedSettings" class="advanced-settings">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="colorPalette">
+                                <span id="paletteLabel">Color Palette</span>
+                            </label>
+                            <select id="colorPalette">
+                                <option value="default">Default</option>
+                                <option value="vibrant">Vibrant</option>
+                                <option value="pastel">Pastel</option>
+                                <option value="monochrome">Monochrome</option>
+                                <option value="warm">Warm Tones</option>
+                                <option value="cool">Cool Tones</option>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="composition" data-i18n="composition_label">Composition</label>
-                        <select id="composition">
-                            <option value="default" data-i18n="default">Default</option>
-                            <option value="close-up" data-i18n="close_up">Close-up</option>
-                            <option value="wide-shot" data-i18n="wide_shot">Wide Shot</option>
-                            <option value="macro" data-i18n="macro">Macro</option>
-                            <option value="aerial" data-i18n="aerial">Aerial</option>
-                        </select>
+                        <div class="setting-group">
+                            <label for="composition">
+                                <span id="compositionLabel">Composition</span>
+                            </label>
+                            <select id="composition">
+                                <option value="default">Default</option>
+                                <option value="closeup">Close-up</option>
+                                <option value="wideshot">Wide Shot</option>
+                                <option value="macro">Macro</option>
+                                <option value="aerial">Aerial</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="btn-group">
-                    <button class="btn btn-primary" id="generateBtn">
+                <div class="action-buttons">
+                    <button id="generateBtn" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                         </svg>
-                        <span data-i18n="generate">Generate</span>
+                        <span id="generateLabel">Generate Image</span>
                     </button>
-                    <button class="btn btn-secondary" id="clearBtn" data-i18n="clear">Clear</button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                        <span id="clearLabel">Clear</span>
+                    </button>
                 </div>
 
-                <div class="social-share">
-                    <button class="share-btn" id="shareTwitter">
+                <div class="share-buttons">
+                    <button class="share-btn share-twitter" id="shareTwitter">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
                         </svg>
+                        Twitter
                     </button>
-                    <button class="share-btn" id="shareFacebook">
+                    <button class="share-btn share-facebook" id="shareFacebook">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
                         </svg>
+                        Facebook
                     </button>
-                    <button class="share-btn" id="shareInstagram">
+                    <button class="share-btn share-instagram" id="shareInstagram">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
                         </svg>
+                        Instagram
+                    </button>
+                    <button class="share-btn share-whatsapp" id="shareWhatsapp">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+                        </svg>
+                        WhatsApp
                     </button>
                 </div>
+            </section>
 
-                <div class="history-container" id="historyContainer">
-                    <div class="panel-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.956 7.956 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                            <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                            <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                        </svg>
-                        <span data-i18n="prompt_history">Prompt History</span>
-                    </div>
-                    <div id="historyList"></div>
-                </div>
-            </div>
-
-            <div class="results-panel">
-                <div class="panel-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+            <section class="output-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                     </svg>
-                    <span data-i18n="generated_images">Generated Images</span>
+                    <span id="resultsTitle">Generated Images</span>
+                </h2>
+                
+                <div id="resultsContainer" class="results-grid">
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                        </svg>
+                        <h3 id="emptyTitle">No Images Generated Yet</h3>
+                        <p id="emptyText">Enter a prompt and click "Generate Image" to create amazing AI art</p>
+                    </div>
                 </div>
-                <div class="results-container" id="resultsContainer"></div>
-            </div>
+            </section>
         </main>
 
-        <div class="copyright">
-            <p>© 2025 DEVAKA AI GENERATOR | Powered by Pollinations API | Developed by Dery Lau | Thanks to Github & Cloudflare</p>
-        </div>
+        <section class="history-section">
+            <h2 class="section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.956 7.956 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+                <span id="historyTitle">Prompt History</span>
+                <button id="clearHistoryBtn" class="btn btn-danger" style="margin-left: auto; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                    <span id="clearHistoryLabel">Clear History</span>
+                </button>
+            </h2>
+            <div id="historyList" class="history-list">
+                <!-- History items will be added here dynamically -->
+            </div>
+        </section>
+
+        <footer style="margin-top: 3rem; text-align: center; color: var(--gray); font-size: 0.9rem;">
+            <p id="copyrightText">© 2025 DEVAKA AI GENERATOR | Powered by Pollinations API | Developed by Dery Lau | Thanks to Github & Cloudflare</p>
+        </footer>
     </div>
 
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-        <div class="loading-text">DEVAKA AI LOADING</div>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">DEVAKA AI Loading</div>
     </div>
 
     <script>
+        // Language translations
+        const translations = {
+            en: {
+                themeText: "Dark Mode",
+                promptTitle: "Image Prompt",
+                promptPlaceholder: "Describe the image you want to generate...",
+                negativePromptLabel: "Negative Prompt",
+                negativePromptTooltip: "Specify what you don't want to appear in the image",
+                negativePromptPlaceholder: "Things you want to exclude from the image...",
+                modelLabel: "AI Model",
+                fluxLabel: "Flux Variation",
+                styleLabel: "Style",
+                lightLabel: "Light Enhancement",
+                aspectLabel: "Aspect Ratio",
+                widthLabel: "Width:",
+                heightLabel: "Height:",
+                stepsLabel: "Steps:",
+                featuresLabel: "Additional Features",
+                enhanceLabel: "Ultra Enhance (High Detail)",
+                advancedLabel: "Advanced Settings",
+                paletteLabel: "Color Palette",
+                compositionLabel: "Composition",
+                generateLabel: "Generate Image",
+                clearLabel: "Clear",
+                resultsTitle: "Generated Images",
+                emptyTitle: "No Images Generated Yet",
+                emptyText: "Enter a prompt and click \"Generate Image\" to create amazing AI art",
+                historyTitle: "Prompt History",
+                clearHistoryLabel: "Clear History",
+                copyrightText: "© 2025 DEVAKA AI GENERATOR | Powered by Pollinations API | Developed by Dery Lau | Thanks to Github & Cloudflare"
+            },
+            id: {
+                themeText: "Mode Gelap",
+                promptTitle: "Prompt Gambar",
+                promptPlaceholder: "Deskripsikan gambar yang ingin Anda hasilkan...",
+                negativePromptLabel: "Prompt Negatif",
+                negativePromptTooltip: "Tentukan apa yang tidak ingin muncul dalam gambar",
+                negativePromptPlaceholder: "Hal-hal yang ingin Anda kecualikan dari gambar...",
+                modelLabel: "Model AI",
+                fluxLabel: "Variasi Flux",
+                styleLabel: "Gaya",
+                lightLabel: "Peningkatan Cahaya",
+                aspectLabel: "Rasio Aspek",
+                widthLabel: "Lebar:",
+                heightLabel: "Tinggi:",
+                stepsLabel: "Langkah:",
+                featuresLabel: "Fitur Tambahan",
+                enhanceLabel: "Peningkatan Ultra (Detail Tinggi)",
+                advancedLabel: "Pengaturan Lanjutan",
+                paletteLabel: "Palet Warna",
+                compositionLabel: "Komposisi",
+                generateLabel: "Hasilkan Gambar",
+                clearLabel: "Bersihkan",
+                resultsTitle: "Gambar yang Dihasilkan",
+                emptyTitle: "Belum Ada Gambar yang Dihasilkan",
+                emptyText: "Masukkan prompt dan klik \"Hasilkan Gambar\" untuk membuat seni AI yang menakjubkan",
+                historyTitle: "Riwayat Prompt",
+                clearHistoryLabel: "Hapus Riwayat",
+                copyrightText: "© 2025 DEVAKA AI GENERATOR | Didukung oleh Pollinations API | Dikembangkan oleh Dery Lau | Terima kasih kepada Github & Cloudflare"
+            }
+        };
+
         // DOM Elements
+        const html = document.getElementById('html');
         const themeToggle = document.getElementById('themeToggle');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const generateBtn = document.getElementById('generateBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const promptInput = document.getElementById('prompt');
-        const negativePromptInput = document.getElementById('negativePrompt');
-        const modelSelect = document.getElementById('model');
-        const styleSelect = document.getElementById('style');
-        const lightEnhanceSelect = document.getElementById('lightEnhance');
-        const additionalFeaturesSelect = document.getElementById('additionalFeatures');
+        const themeText = document.getElementById('themeText');
+        const languageToggle = document.getElementById('languageToggle');
+        const languageText = document.getElementById('languageText');
+        const promptInput = document.getElementById('promptInput');
+        const negativePrompt = document.getElementById('negativePrompt');
+        const aiModel = document.getElementById('aiModel');
+        const fluxVariation = document.getElementById('fluxVariation');
+        const style = document.getElementById('style');
+        const lightEnhancement = document.getElementById('lightEnhancement');
         const widthInput = document.getElementById('width');
         const heightInput = document.getElementById('height');
         const stepsInput = document.getElementById('steps');
         const widthValue = document.getElementById('widthValue');
         const heightValue = document.getElementById('heightValue');
         const stepsValue = document.getElementById('stepsValue');
-        const widthDisplay = document.getElementById('widthDisplay');
-        const heightDisplay = document.getElementById('heightDisplay');
-        const stepsDisplay = document.getElementById('stepsDisplay');
-        const aspectRatioInfo = document.getElementById('aspectRatioInfo');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const historyList = document.getElementById('historyList');
+        const additionalFeatures = document.getElementById('additionalFeatures');
+        const ultraEnhance = document.getElementById('ultraEnhance');
         const toggleAdvanced = document.getElementById('toggleAdvanced');
         const advancedSettings = document.getElementById('advancedSettings');
-        const colorPaletteSelect = document.getElementById('colorPalette');
-        const compositionSelect = document.getElementById('composition');
-        const nsfwToggle = document.getElementById('nsfwToggle');
+        const colorPalette = document.getElementById('colorPalette');
+        const composition = document.getElementById('composition');
+        const generateBtn = document.getElementById('generateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const aspectRatioBtns = document.querySelectorAll('.aspect-ratio-btn');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const historyList = document.getElementById('historyList');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const loadingOverlay = document.getElementById('loadingOverlay');
         const shareTwitter = document.getElementById('shareTwitter');
         const shareFacebook = document.getElementById('shareFacebook');
         const shareInstagram = document.getElementById('shareInstagram');
-        const langButtons = document.querySelectorAll('.lang-btn');
-        const elementsToTranslate = document.querySelectorAll('[data-i18n], [data-i18n-ph]');
-        const aspectRatioBtns = document.querySelectorAll('.aspect-ratio-btn');
+        const shareWhatsapp = document.getElementById('shareWhatsapp');
 
-        // Current language
-        let currentLanguage = 'en';
+        // State
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let currentLanguage = localStorage.getItem('language') || 'en';
+        let history = JSON.parse(localStorage.getItem('promptHistory')) || [];
 
-        // Translations
-        const translations = {
-            en: {
-                toggle_theme: "Toggle Theme",
-                prompt_label: "Prompt",
-                prompt_placeholder: "Describe the image you want to generate...",
-                negative_prompt_label: "Negative Prompt",
-                negative_prompt_placeholder: "What you don't want in the image...",
-                model_label: "AI Model",
-                nsfw_label: "NSFW Content",
-                style_label: "Style",
-                no_style: "No Style",
-                realistic: "Realistic",
-                digital_art: "Digital Art",
-                anime: "Anime style",
-                painting: "Painting",
-                photography: "Photography",
-                watercolor: "Watercolor",
-                "3d_render": "3D render",
-                surrealism: "Surrealisme",
-                "3d_disney": "3D Disney Character",
-                studio_ghibli: "Studio Ghibli",
-                ukiyo_e: "Ukiyo-e",
-                lowbrow: "Lowbrow Art",
-                minimalism: "Minimalism",
-                kinetic: "Kinetic Art",
-                sumi_e: "Sumi-e",
-                claymation: "Claymation",
-                brutalism: "Brutalism",
-                stained_glass: "Stained Glass",
-                grunge: "Grunge",
-                horror: "Horror",
-                art_deco: "Art Deco",
-                fantasy: "Fantasy Art",
-                graffiti: "Graffiti Art",
-                pixel: "Pixel Art",
-                steampunk: "Steampunk",
-                cyberpunk: "Cyberpunk",
-                abstract: "Abstract",
-                cartoon: "Cartoon",
-                vintage: "Vintage",
-                gothic: "Gothic",
-                low_poly: "Low Poly",
-                pop_art: "Pop Art",
-                comic: "Comic Book",
-                chalk: "Chalk Art",
-                neon_noir: "Neon Noir",
-                amigurumi: "Amigurumi",
-                origami: "Origami",
-                zentangle: "Zentangle",
-                glitch: "Glitch Art",
-                synthwave: "Synthwave",
-                art_nouveau: "Art Nouveau",
-                cubism: "Cubism",
-                impressionism: "Impressionism",
-                psychedelic: "Psychedelic",
-                dystopian: "Dystopian",
-                light_enhance_label: "Light Enhancement",
-                none: "None",
-                hdr_plus: "HDR+",
-                detail_ultra: "Detail Ultra",
-                cinematic: "Cinematic",
-                neon_glow: "Neon Glow",
-                photorealistic: "Photorealistic",
-                drama_light: "Drama Light",
-                additional_features_label: "Additional Features",
-                animation: "Animation",
-                transparency: "Transparency",
-                tilt_shift: "Tilt-Shift",
-                hologram: "Hologram",
-                width_label: "Width",
-                height_label: "Height",
-                steps_label: "Steps",
-                advanced_settings: "Advanced Settings",
-                color_palette_label: "Color Palette",
-                default: "Default",
-                vibrant: "Vibrant",
-                pastel: "Pastel",
-                monochrome: "Monochrome",
-                warm_tones: "Warm Tones",
-                cool_tones: "Cool Tones",
-                composition_label: "Composition",
-                close_up: "Close-up",
-                wide_shot: "Wide Shot",
-                macro: "Macro",
-                aerial: "Aerial",
-                generate: "Generate",
-                clear: "Clear",
-                prompt_history: "Prompt History",
-                generated_images: "Generated Images",
-                download: "Download",
-                save: "Save"
-            },
-            id: {
-                toggle_theme: "Ubah Tema",
-                prompt_label: "Prompt",
-                prompt_placeholder: "Jelaskan gambar yang ingin Anda hasilkan...",
-                negative_prompt_label: "Prompt Negatif",
-                negative_prompt_placeholder: "Apa yang tidak Anda inginkan dalam gambar...",
-                model_label: "Model AI",
-                nsfw_label: "Konten NSFW",
-                style_label: "Gaya",
-                no_style: "Tanpa Gaya",
-                realistic: "Realistis",
-                digital_art: "Seni Digital",
-                anime: "Gaya Anime",
-                painting: "Lukisan",
-                photography: "Fotografi",
-                watercolor: "Cat Air",
-                "3d_render": "Render 3D",
-                surrealism: "Surealisme",
-                "3d_disney": "Karakter Disney 3D",
-                studio_ghibli: "Studio Ghibli",
-                ukiyo_e: "Ukiyo-e",
-                lowbrow: "Seni Lowbrow",
-                minimalism: "Minimalisme",
-                kinetic: "Seni Kinetik",
-                sumi_e: "Sumi-e",
-                claymation: "Claymation",
-                brutalism: "Brutalisme",
-                stained_glass: "Kaca Patri",
-                grunge: "Grunge",
-                horror: "Horor",
-                art_deco: "Art Deco",
-                fantasy: "Seni Fantasi",
-                graffiti: "Seni Graffiti",
-                pixel: "Seni Pixel",
-                steampunk: "Steampunk",
-                cyberpunk: "Cyberpunk",
-                abstract: "Abstrak",
-                cartoon: "Kartun",
-                vintage: "Vintage",
-                gothic: "Gotik",
-                low_poly: "Low Poly",
-                pop_art: "Pop Art",
-                comic: "Buku Komik",
-                chalk: "Seni Kapur",
-                neon_noir: "Neon Noir",
-                amigurumi: "Amigurumi",
-                origami: "Origami",
-                zentangle: "Zentangle",
-                glitch: "Seni Glitch",
-                synthwave: "Synthwave",
-                art_nouveau: "Art Nouveau",
-                cubism: "Kubisme",
-                impressionism: "Impresionisme",
-                psychedelic: "Psikedelik",
-                dystopian: "Distopia",
-                light_enhance_label: "Peningkatan Cahaya",
-                none: "Tidak Ada",
-                hdr_plus: "HDR+",
-                detail_ultra: "Detail Ultra",
-                cinematic: "Sinematik",
-                neon_glow: "Cahaya Neon",
-                photorealistic: "Fotorealistik",
-                drama_light: "Cahaya Dramatis",
-                additional_features_label: "Fitur Tambahan",
-                animation: "Animasi",
-                transparency: "Transparansi",
-                tilt_shift: "Tilt-Shift",
-                hologram: "Hologram",
-                width_label: "Lebar",
-                height_label: "Tinggi",
-                steps_label: "Langkah",
-                advanced_settings: "Pengaturan Lanjutan",
-                color_palette_label: "Palet Warna",
-                default: "Default",
-                vibrant: "Vibrant",
-                pastel: "Pastel",
-                monochrome: "Monokrom",
-                warm_tones: "Warna Hangat",
-                cool_tones: "Warna Dingin",
-                composition_label: "Komposisi",
-                close_up: "Close-up",
-                wide_shot: "Wide Shot",
-                macro: "Makro",
-                aerial: "Udara",
-                generate: "Hasilkan",
-                clear: "Bersihkan",
-                prompt_history: "Riwayat Prompt",
-                generated_images: "Gambar yang Dihasilkan",
-                download: "Unduh",
-                save: "Simpan"
-            }
-        };
-
-        // Aspect ratio presets
-        aspectRatioBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const width = btn.dataset.width;
-                const height = btn.dataset.height;
-                const ratioText = btn.textContent.match(/\((.*?)\)/)[1];
-                
-                widthInput.value = width;
-                heightInput.value = height;
-                
-                updateWidth();
-                updateHeight();
-                updateAspectRatio(ratioText);
-                
-                // Update active state
-                aspectRatioBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-
-        // Language switcher
-        langButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                langButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                currentLanguage = button.dataset.lang;
-                translatePage();
-            });
-        });
-
-        // Translate page
-        function translatePage() {
-            elementsToTranslate.forEach(element => {
-                const key = element.dataset.i18n || element.dataset.i18nPh;
-                if (key && translations[currentLanguage][key]) {
-                    if (element.dataset.i18n) {
-                        element.textContent = translations[currentLanguage][key];
-                    } else if (element.dataset.i18nPh) {
-                        element.placeholder = translations[currentLanguage][key];
-                    }
-                }
-            });
-
-            // Translate buttons in result cards
-            document.querySelectorAll('.download-btn').forEach(btn => {
-                btn.textContent = translations[currentLanguage].download;
-            });
-            document.querySelectorAll('.save-btn').forEach(btn => {
-                btn.textContent = translations[currentLanguage].save;
-            });
+        // Initialize
+        function init() {
+            applyTheme();
+            applyLanguage();
+            updateRangeValues();
+            loadHistory();
+            setupEventListeners();
         }
 
-        // Theme toggle
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
+        // Theme functions
+        function applyTheme() {
+            html.setAttribute('data-theme', currentTheme);
+            themeText.textContent = currentTheme === 'light' ? translations[currentLanguage].themeText : translations[currentLanguage].themeText;
+            localStorage.setItem('theme', currentTheme);
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme();
+        }
+
+        // Language functions
+        function applyLanguage() {
+            const lang = translations[currentLanguage];
+            for (const [key, value] of Object.entries(lang)) {
+                const element = document.getElementById(`${key}`);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
             
-            // Update button text
-            const themeText = themeToggle.querySelector('span');
-            themeText.textContent = newTheme === 'dark' ? translations[currentLanguage].toggle_theme : translations[currentLanguage].toggle_theme;
+            // Update placeholders
+            promptInput.placeholder = lang.promptPlaceholder;
+            negativePrompt.placeholder = lang.negativePromptPlaceholder;
             
-            // Save preference to localStorage
-            localStorage.setItem('theme', newTheme);
-        });
+            // Update language toggle text
+            languageText.textContent = currentLanguage === 'en' ? 'EN/ID' : 'ID/EN';
+            
+            localStorage.setItem('language', currentLanguage);
+        }
 
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'id' : 'en';
+            applyLanguage();
+        }
 
-        // Range input updates
-        widthInput.addEventListener('input', updateWidth);
-        heightInput.addEventListener('input', updateHeight);
-        stepsInput.addEventListener('input', updateSteps);
-
-        function updateWidth() {
+        // Range input functions
+        function updateRangeValues() {
             widthValue.textContent = widthInput.value;
-            widthDisplay.textContent = widthInput.value;
-            updateAspectRatio();
-        }
-
-        function updateHeight() {
             heightValue.textContent = heightInput.value;
-            heightDisplay.textContent = heightInput.value;
-            updateAspectRatio();
-        }
-
-        function updateSteps() {
             stepsValue.textContent = stepsInput.value;
-            stepsDisplay.textContent = stepsInput.value;
         }
 
-        function updateAspectRatio(ratioText = null) {
-            const width = parseInt(widthInput.value);
-            const height = parseInt(heightInput.value);
+        // History functions
+        function loadHistory() {
+            historyList.innerHTML = '';
             
-            if (!ratioText) {
-                const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-                const divisor = gcd(width, height);
-                const ratio = `${width / divisor}:${height / divisor}`;
-                
-                // Determine ratio type
-                let ratioType = "Custom";
-                if (width === height) ratioType = "Square";
-                else if (width > height) ratioType = "Landscape";
-                else if (width < height) ratioType = "Portrait";
-                
-                aspectRatioInfo.textContent = `Aspect Ratio: ${ratioType} (${ratio})`;
-            } else {
-                aspectRatioInfo.textContent = `Aspect Ratio: ${ratioText}`;
-            }
-            
-            // Update active state of preset buttons
-            aspectRatioBtns.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.width == widthInput.value && btn.dataset.height == heightInput.value) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-
-        // Toggle advanced settings
-        toggleAdvanced.addEventListener('click', () => {
-            advancedSettings.classList.toggle('active');
-            toggleAdvanced.classList.toggle('active');
-        });
-
-        // Clear button
-        clearBtn.addEventListener('click', () => {
-            promptInput.value = '';
-            negativePromptInput.value = '';
-            modelSelect.value = 'dall-e-3';
-            styleSelect.value = '';
-            lightEnhanceSelect.value = 'none';
-            additionalFeaturesSelect.value = 'none';
-            widthInput.value = 1080;
-            heightInput.value = 1080;
-            stepsInput.value = 50;
-            colorPaletteSelect.value = 'default';
-            compositionSelect.value = 'default';
-            nsfwToggle.checked = false;
-            
-            // Update displays
-            updateWidth();
-            updateHeight();
-            updateSteps();
-            updateAspectRatio();
-        });
-
-        // Generate button
-        generateBtn.addEventListener('click', generateImage);
-
-        // Share buttons
-        shareTwitter.addEventListener('click', () => shareOnSocial('twitter'));
-        shareFacebook.addEventListener('click', () => shareOnSocial('facebook'));
-        shareInstagram.addEventListener('click', () => shareOnSocial('instagram'));
-
-        function shareOnSocial(platform) {
-            const currentImage = resultsContainer.firstElementChild;
-            if (!currentImage) {
-                alert('No image to share!');
+            if (history.length === 0) {
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'history-item';
+                emptyItem.textContent = currentLanguage === 'en' ? 'No history yet' : 'Belum ada riwayat';
+                historyList.appendChild(emptyItem);
                 return;
             }
             
-            const imageUrl = currentImage.querySelector('.result-image').src;
-            const promptText = currentImage.querySelector('.result-prompt').textContent;
-            let shareUrl = '';
-            
-            switch (platform) {
-                case 'twitter':
-                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out this AI-generated image: ' + promptText)}&url=${encodeURIComponent(imageUrl)}&hashtags=DEVAKAAI,AIArt`;
-                    break;
-                case 'facebook':
-                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}&quote=${encodeURIComponent(promptText)}`;
-                    break;
-                case 'instagram':
-                    alert('Please download the image first and then share it on Instagram.');
-                    return;
-            }
-            
-            window.open(shareUrl, '_blank', 'width=600,height=400');
+            history.slice().reverse().forEach(item => {
+                addHistoryItem(item);
+            });
         }
 
-        // Generate image function
+        function addHistoryItem(item) {
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            
+            const promptText = document.createElement('span');
+            promptText.textContent = item.prompt.length > 50 ? `${item.prompt.substring(0, 50)}...` : item.prompt;
+            
+            const timeText = document.createElement('span');
+            timeText.className = 'history-item-time';
+            timeText.textContent = new Date(item.timestamp).toLocaleString();
+            
+            historyItem.appendChild(promptText);
+            historyItem.appendChild(timeText);
+            
+            historyItem.addEventListener('click', () => {
+                promptInput.value = item.prompt;
+                if (item.negativePrompt) negativePrompt.value = item.negativePrompt;
+                if (item.aiModel) aiModel.value = item.aiModel;
+                if (item.fluxVariation) fluxVariation.value = item.fluxVariation;
+                if (item.style) style.value = item.style;
+                if (item.lightEnhancement) lightEnhancement.value = item.lightEnhancement;
+                if (item.width) {
+                    widthInput.value = item.width;
+                    widthValue.textContent = item.width;
+                }
+                if (item.height) {
+                    heightInput.value = item.height;
+                    heightValue.textContent = item.height;
+                }
+                if (item.steps) {
+                    stepsInput.value = item.steps;
+                    stepsValue.textContent = item.steps;
+                }
+                if (item.additionalFeatures) additionalFeatures.value = item.additionalFeatures;
+                if (item.ultraEnhance) ultraEnhance.checked = item.ultraEnhance;
+                if (item.colorPalette) colorPalette.value = item.colorPalette;
+                if (item.composition) composition.value = item.composition;
+                
+                // Scroll to prompt input
+                promptInput.focus();
+            });
+            
+            historyList.prepend(historyItem);
+        }
+
+        function addToHistory(promptData) {
+            const historyItem = {
+                prompt: promptData.prompt,
+                negativePrompt: promptData.negativePrompt,
+                aiModel: promptData.aiModel,
+                fluxVariation: promptData.fluxVariation,
+                style: promptData.style,
+                lightEnhancement: promptData.lightEnhancement,
+                width: promptData.width,
+                height: promptData.height,
+                steps: promptData.steps,
+                additionalFeatures: promptData.additionalFeatures,
+                ultraEnhance: promptData.ultraEnhance,
+                colorPalette: promptData.colorPalette,
+                composition: promptData.composition,
+                timestamp: Date.now()
+            };
+            
+            history.push(historyItem);
+            if (history.length > 20) history.shift();
+            
+            localStorage.setItem('promptHistory', JSON.stringify(history));
+            loadHistory();
+        }
+
+        function clearHistory() {
+            history = [];
+            localStorage.setItem('promptHistory', JSON.stringify(history));
+            loadHistory();
+        }
+
+        // Image generation functions
         async function generateImage() {
             const prompt = promptInput.value.trim();
             if (!prompt) {
-                alert('Please enter a prompt!');
+                alert(currentLanguage === 'en' ? 'Please enter a prompt' : 'Silakan masukkan prompt');
                 return;
             }
-
+            
             // Show loading overlay
             loadingOverlay.classList.add('active');
-
-            // Get all parameters
-            const negativePrompt = negativePromptInput.value.trim();
-            const model = modelSelect.value;
-            const style = styleSelect.value;
-            const lightEnhance = lightEnhanceSelect.value;
-            const additionalFeatures = additionalFeaturesSelect.value;
-            const width = widthInput.value;
-            const height = heightInput.value;
-            const steps = stepsInput.value;
-            const colorPalette = colorPaletteSelect.value;
-            const composition = compositionSelect.value;
-            const nsfw = nsfwToggle.checked;
-
-            // Build prompt with additional parameters
+            
+            // Prepare prompt with all settings
             let fullPrompt = prompt;
             
-            if (style) fullPrompt += `, ${style} style`;
-            if (lightEnhance !== 'none') fullPrompt += `, ${lightEnhance}`;
-            if (additionalFeatures !== 'none') fullPrompt += `, ${additionalFeatures}`;
-            if (colorPalette !== 'default') fullPrompt += `, ${colorPalette} color palette`;
-            if (composition !== 'default') fullPrompt += `, ${composition} composition`;
-            if (nsfw) fullPrompt += ', nsfw';
-
-            // Save to history
-            saveToHistory(fullPrompt, negativePrompt);
-
+            // Add AI model prefix if not default
+            if (aiModel.value !== 'default') {
+                fullPrompt = `${aiModel.value} style: ${fullPrompt}`;
+            }
+            
+            // Add flux variation if not default
+            if (fluxVariation.value !== 'default') {
+                fullPrompt = `${fluxVariation.value} flux: ${fullPrompt}`;
+            }
+            
+            // Add style if not none
+            if (style.value !== 'none') {
+                fullPrompt = `${fullPrompt}, ${style.value}`;
+            }
+            
+            // Add light enhancement if not none
+            if (lightEnhancement.value !== 'none') {
+                fullPrompt = `${fullPrompt}, ${lightEnhancement.value} lighting`;
+            }
+            
+            // Add additional features if not none
+            if (additionalFeatures.value !== 'none') {
+                fullPrompt = `${fullPrompt}, ${additionalFeatures.value}`;
+            }
+            
+            // Add ultra enhance if checked
+            if (ultraEnhance.checked) {
+                fullPrompt = `${fullPrompt}, ultra detailed, 8k, high resolution`;
+            }
+            
+            // Add color palette if not default
+            if (colorPalette.value !== 'default') {
+                fullPrompt = `${fullPrompt}, ${colorPalette.value} color palette`;
+            }
+            
+            // Add composition if not default
+            if (composition.value !== 'default') {
+                fullPrompt = `${fullPrompt}, ${composition.value} composition`;
+            }
+            
+            // Add negative prompt if exists
+            if (negativePrompt.value.trim()) {
+                fullPrompt = `${fullPrompt}|${negativePrompt.value.trim()}`;
+            }
+            
+            // Encode prompt for URL
+            const encodedPrompt = encodeURIComponent(fullPrompt);
+            
+            // Build API URL
+            const apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${widthInput.value}&height=${heightInput.value}&steps=${stepsInput.value}&nologo=true`;
+            
             try {
-                // Build API URL with nologo parameter
-                let apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}`;
-                apiUrl += `?width=${width}&height=${height}&steps=${steps}&nologo=true`;
+                // Save to history
+                addToHistory({
+                    prompt: prompt,
+                    negativePrompt: negativePrompt.value.trim(),
+                    aiModel: aiModel.value,
+                    fluxVariation: fluxVariation.value,
+                    style: style.value,
+                    lightEnhancement: lightEnhancement.value,
+                    width: widthInput.value,
+                    height: heightInput.value,
+                    steps: stepsInput.value,
+                    additionalFeatures: additionalFeatures.value,
+                    ultraEnhance: ultraEnhance.checked,
+                    colorPalette: colorPalette.value,
+                    composition: composition.value
+                });
                 
-                if (negativePrompt) {
-                    apiUrl += `&negative_prompt=${encodeURIComponent(negativePrompt)}`;
-                }
+                // Create image element
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
                 
-                if (model) {
-                    apiUrl += `&model=${model}`;
-                }
-
-                // Fetch image
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error('Failed to generate image');
+                img.onload = () => {
+                    // Hide loading overlay
+                    loadingOverlay.classList.remove('active');
+                    
+                    // Add to results
+                    addResultToGrid(img.src, prompt);
+                };
                 
-                const imageUrl = response.url;
+                img.onerror = () => {
+                    loadingOverlay.classList.remove('active');
+                    alert(currentLanguage === 'en' ? 'Error generating image. Please try again.' : 'Gagal menghasilkan gambar. Silakan coba lagi.');
+                };
                 
-                // Create result card
-                const resultCard = document.createElement('div');
-                resultCard.className = 'result-card';
-                resultCard.innerHTML = `
-                    <img src="${imageUrl}" alt="Generated image" class="result-image">
-                    <div class="result-prompt" title="${fullPrompt}">${fullPrompt}</div>
-                    <div class="result-actions">
-                        <button class="btn btn-secondary download-btn" data-i18n="download">Download</button>
-                        <button class="btn btn-secondary save-btn" data-i18n="save">Save</button>
-                    </div>
-                `;
-                
-                // Add to results container at the top
-                resultsContainer.insertBefore(resultCard, resultsContainer.firstChild);
-                
-                // Add event listeners to new buttons
-                const downloadBtn = resultCard.querySelector('.download-btn');
-                const saveBtn = resultCard.querySelector('.save-btn');
-                
-                downloadBtn.addEventListener('click', () => downloadImage(imageUrl, fullPrompt));
-                saveBtn.addEventListener('click', () => saveToFavorites(imageUrl, fullPrompt, negativePrompt));
-                
-                // Translate buttons
-                downloadBtn.textContent = translations[currentLanguage].download;
-                saveBtn.textContent = translations[currentLanguage].save;
-                
+                img.src = apiUrl;
             } catch (error) {
                 console.error('Error generating image:', error);
-                alert('Failed to generate image. Please try again.');
-            } finally {
                 loadingOverlay.classList.remove('active');
+                alert(currentLanguage === 'en' ? 'Error generating image. Please try again.' : 'Gagal menghasilkan gambar. Silakan coba lagi.');
             }
         }
 
-        // Download image
-        function downloadImage(url, prompt) {
+        function addResultToGrid(imageUrl, prompt) {
+            // Remove empty state if it exists
+            const emptyState = resultsContainer.querySelector('.empty-state');
+            if (emptyState) {
+                resultsContainer.removeChild(emptyState);
+            }
+            
+            // Create result card
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card';
+            
+            // Create image element
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = prompt;
+            img.className = 'result-img';
+            
+            // Create actions container
+            const actions = document.createElement('div');
+            actions.className = 'result-actions';
+            
+            // Create download button
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'result-action-btn';
+            downloadBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                ${currentLanguage === 'en' ? 'Download' : 'Unduh'}
+            `;
+            downloadBtn.addEventListener('click', () => downloadImage(imageUrl, prompt));
+            
+            // Create share button
+            const shareBtn = document.createElement('button');
+            shareBtn.className = 'result-action-btn';
+            shareBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+                </svg>
+                ${currentLanguage === 'en' ? 'Share' : 'Bagikan'}
+            `;
+            shareBtn.addEventListener('click', () => shareImage(imageUrl, prompt));
+            
+            // Add buttons to actions
+            actions.appendChild(downloadBtn);
+            actions.appendChild(shareBtn);
+            
+            // Add elements to card
+            resultCard.appendChild(img);
+            resultCard.appendChild(actions);
+            
+            // Add card to grid (at the beginning)
+            resultsContainer.prepend(resultCard);
+        }
+
+        function downloadImage(imageUrl, prompt) {
             const link = document.createElement('a');
-            link.href = url;
+            link.href = imageUrl;
             link.download = `devaka-ai-${prompt.substring(0, 20).replace(/\s+/g, '-').toLowerCase()}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        // Save to favorites (localStorage)
-        function saveToFavorites(url, prompt, negativePrompt) {
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            favorites.unshift({ url, prompt, negativePrompt, date: new Date().toISOString() });
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            alert(translations[currentLanguage].save + ' ' + translations[currentLanguage].success.toLowerCase());
-        }
-
-        // Save to history (localStorage)
-        function saveToHistory(prompt, negativePrompt) {
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.unshift({ prompt, negativePrompt, date: new Date().toISOString() });
-            localStorage.setItem('history', JSON.stringify(history));
-            updateHistoryList();
-        }
-
-        // Update history list
-        function updateHistoryList() {
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            historyList.innerHTML = '';
-            
-            history.slice(0, 10).forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.textContent = item.prompt.substring(0, 50) + (item.prompt.length > 50 ? '...' : '');
-                historyItem.title = item.prompt;
-                
-                historyItem.addEventListener('click', () => {
-                    promptInput.value = item.prompt;
-                    negativePromptInput.value = item.negativePrompt || '';
+        function shareImage(imageUrl, prompt) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'DEVAKA AI Generated Image',
+                    text: `Check out this AI generated image: ${prompt}`,
+                    url: imageUrl
+                }).catch(err => {
+                    console.error('Error sharing:', err);
+                    alert(currentLanguage === 'en' ? 'Error sharing image' : 'Gagal membagikan gambar');
                 });
-                
-                historyList.appendChild(historyItem);
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: ${prompt}`)}&url=${encodeURIComponent(imageUrl)}`;
+                window.open(shareUrl, '_blank');
+            }
+        }
+
+        function clearInputs() {
+            promptInput.value = '';
+            negativePrompt.value = '';
+            aiModel.value = 'default';
+            fluxVariation.value = 'default';
+            style.value = 'none';
+            lightEnhancement.value = 'none';
+            widthInput.value = '1080';
+            heightInput.value = '1080';
+            stepsInput.value = '50';
+            additionalFeatures.value = 'none';
+            ultraEnhance.checked = false;
+            colorPalette.value = 'default';
+            composition.value = 'default';
+            
+            // Reset aspect ratio buttons
+            aspectRatioBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.ratio === '1:1') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            updateRangeValues();
+        }
+
+        // Aspect ratio functions
+        function setAspectRatio(btn) {
+            aspectRatioBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            widthInput.value = btn.dataset.width;
+            heightInput.value = btn.dataset.height;
+            
+            updateRangeValues();
+        }
+
+        // Social share functions
+        function shareOnTwitter() {
+            const text = currentLanguage === 'en' 
+                ? 'Check out DEVAKA AI - Advanced AI Image Generator!' 
+                : 'Lihat DEVAKA AI - Generator Gambar AI Canggih!';
+            const url = 'https://devaka-ai-generator.com';
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnFacebook() {
+            const url = 'https://devaka-ai-generator.com';
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnInstagram() {
+            alert(currentLanguage === 'en' 
+                ? 'To share on Instagram, download an image first and then share it from your gallery.' 
+                : 'Untuk berbagi di Instagram, unduh gambar terlebih dahulu lalu bagikan dari galeri Anda.');
+        }
+
+        function shareOnWhatsapp() {
+            const text = currentLanguage === 'en' 
+                ? 'Check out DEVAKA AI - Advanced AI Image Generator! https://devaka-ai-generator.com' 
+                : 'Lihat DEVAKA AI - Generator Gambar AI Canggih! https://devaka-ai-generator.com';
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Language toggle
+            languageToggle.addEventListener('click', toggleLanguage);
+            
+            // Range inputs
+            widthInput.addEventListener('input', () => {
+                widthValue.textContent = widthInput.value;
+            });
+            
+            heightInput.addEventListener('input', () => {
+                heightValue.textContent = heightInput.value;
+            });
+            
+            stepsInput.addEventListener('input', () => {
+                stepsValue.textContent = stepsInput.value;
+            });
+            
+            // Aspect ratio buttons
+            aspectRatioBtns.forEach(btn => {
+                btn.addEventListener('click', () => setAspectRatio(btn));
+            });
+            
+            // Advanced settings toggle
+            toggleAdvanced.addEventListener('click', () => {
+                advancedSettings.classList.toggle('active');
+                toggleAdvanced.classList.toggle('active');
+            });
+            
+            // Generate button
+            generateBtn.addEventListener('click', generateImage);
+            
+            // Clear button
+            clearBtn.addEventListener('click', clearInputs);
+            
+            // Clear history button
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            // Social share buttons
+            shareTwitter.addEventListener('click', shareOnTwitter);
+            shareFacebook.addEventListener('click', shareOnFacebook);
+            shareInstagram.addEventListener('click', shareOnInstagram);
+            shareWhatsapp.addEventListener('click', shareOnWhatsapp);
+            
+            // Allow pressing Enter in prompt input to generate
+            promptInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    generateImage();
+                }
             });
         }
 
-        // Initialize
-        function init() {
-            updateWidth();
-            updateHeight();
-            updateSteps();
-            updateAspectRatio();
-            updateHistoryList();
-            translatePage();
-        }
-
+        // Initialize the app
         init();
     </script>
 </body>
