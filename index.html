@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" id="html">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVAKA AI - Advanced AI Image & Text Generator</title>
+    <title>DEVAKA AI - Advanced AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6e45e2;
-            --secondary: #88d3ce;
-            --dark: #1a1a2e;
-            --darker: #0f0f1a;
-            --light: #f8f9fa;
-            --lighter: #ffffff;
-            --gray: #6c757d;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --info: #17a2b8;
-            --transition: all 0.3s ease;
-            --shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.3);
-            --border-radius: 12px;
-            --border-radius-sm: 8px;
+            --primary: #6e00ff;
+            --primary-light: #9d4dff;
+            --secondary: #ff00aa;
+            --accent: #00f7ff;
+            --text: #ffffff;
+            --bg: #0a0a12;
+            --card-bg: #161622;
+            --input-bg: #252535;
+            --border: #3a3a4a;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff0044;
+            --light-text: #f0f0f0;
+            --dark-text: #222222;
         }
 
-        [data-theme="dark"] {
-            --primary: #8a63f5;
-            --secondary: #63f5e8;
-            --dark: #f8f9fa;
-            --darker: #e9ecef;
-            --light: #1a1a2e;
-            --lighter: #0f0f1a;
-            --gray: #adb5bd;
+        [data-theme="light"] {
+            --primary: #4d00b3;
+            --primary-light: #6e00ff;
+            --secondary: #d4007a;
+            --accent: #00b3b8;
+            --text: #222222;
+            --bg: #f5f5ff;
+            --card-bg: #ffffff;
+            --input-bg: #f0f0f5;
+            --border: #d0d0dd;
+            --light-text: #f0f0f0;
+            --dark-text: #222222;
         }
 
         * {
@@ -39,322 +42,276 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--dark);
-            transition: var(--transition);
+            background-color: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .container {
-            width: 95%;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 2rem 0;
+        .cyber-border {
+            position: relative;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary-light), 
+                        inset 0 0 10px var(--primary-light);
+            border-radius: 8px;
+            padding: 2px;
+            background: var(--card-bg);
+        }
+
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px var(--primary), 
+                         0 0 10px var(--primary), 
+                         0 0 20px var(--primary-light);
+            animation: neon-glow 2s infinite alternate;
+        }
+
+        @keyframes neon-glow {
+            from { text-shadow: 0 0 5px var(--primary), 
+                              0 0 10px var(--primary); }
+            to { text-shadow: 0 0 10px var(--primary), 
+                             0 0 20px var(--primary-light), 
+                             0 0 30px var(--secondary); }
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="dark"] header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
-            letter-spacing: 1px;
+            overflow: hidden;
         }
 
-        .logo h1::after {
+        header::before {
             content: '';
             position: absolute;
-            bottom: -5px;
+            top: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 3px;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            opacity: 0.3;
         }
 
-        .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            background: var(--primary);
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
             color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
         }
 
-        .theme-toggle:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        .language-toggle {
-            background: transparent;
-            color: var(--dark);
-            border: 1px solid var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        [data-theme="dark"] .language-toggle {
-            color: var(--lighter);
-            border: 1px solid var(--lighter);
-        }
-
-        .language-toggle:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
 
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 2fr;
             gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1024px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .input-section {
-            background: var(--lighter);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        [data-theme="dark"] .input-section {
-            box-shadow: var(--shadow-lg);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
+        .panel {
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
-            color: var(--primary);
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--accent);
         }
 
-        .section-title svg {
-            width: 24px;
-            height: 24px;
+        .panel-title i {
+            font-size: 1.1rem;
         }
 
-        .prompt-area {
-            width: 100%;
-            min-height: 150px;
-            padding: 1rem;
-            border: 2px solid var(--primary);
-            border-radius: var(--border-radius-sm);
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            resize: vertical;
-            transition: var(--transition);
-            background: var(--lighter);
-            color: var(--dark);
+        .form-group {
+            margin-bottom: 1.2rem;
         }
 
-        .prompt-area:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
-        }
-
-        .negative-prompt-area {
-            width: 100%;
-            min-height: 80px;
-            padding: 1rem;
-            border: 1px solid var(--gray);
-            border-radius: var(--border-radius-sm);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            resize: vertical;
-            transition: var(--transition);
-            background: var(--lighter);
-            color: var(--dark);
-        }
-
-        .negative-prompt-area:focus {
-            outline: none;
-            border-color: var(--danger);
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
-        }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .setting-group {
-            margin-bottom: 1rem;
-        }
-
-        .setting-group label {
+        label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
-        [data-theme="dark"] .setting-group label {
-            color: var(--lighter);
-        }
-
-        .setting-group select, 
-        .setting-group input[type="range"],
-        .setting-group input[type="number"] {
+        textarea, input, select {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid var(--gray);
-            border-radius: var(--border-radius-sm);
-            background: var(--lighter);
-            color: var(--dark);
-            transition: var(--transition);
+            padding: 0.8rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 1rem;
         }
 
-        .setting-group select:focus, 
-        .setting-group input[type="range"]:focus,
-        .setting-group input[type="number"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(110, 69, 226, 0.2);
-        }
-
-        .range-value {
-            display: inline-block;
-            width: 50px;
-            text-align: center;
-            margin-left: 0.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .aspect-ratio-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .aspect-ratio-btn {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 1px solid var(--gray);
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.8rem;
-        }
-
-        .aspect-ratio-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+        textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-sm);
+            padding: 0.8rem 1.5rem;
             border: none;
-            cursor: pointer;
+            border-radius: 6px;
             font-weight: 600;
-            transition: var(--transition);
-            display: flex;
+            cursor: pointer;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(110, 0, 255, 0.3);
         }
 
         .btn-primary:hover {
-            background: var(--secondary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: 0 6px 20px rgba(110, 0, 255, 0.4);
         }
 
         .btn-secondary {
-            background: var(--gray);
-            color: white;
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: var(--dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            background: var(--input-bg);
         }
 
-        .btn-danger {
-            background: var(--danger);
+        .btn-accent {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(255, 0, 170, 0.3);
         }
 
-        .btn-danger:hover {
-            background: #c82333;
+        .btn-accent:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow);
+            box-shadow: 0 6px 20px rgba(255, 0, 170, 0.4);
         }
 
-        .output-section {
-            background: var(--lighter);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
 
-        [data-theme="dark"] .output-section {
-            box-shadow: var(--shadow-lg);
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--input-bg);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item input {
+            width: auto;
         }
 
         .results-grid {
@@ -366,22 +323,21 @@
 
         .result-card {
             position: relative;
-            border-radius: var(--border-radius-sm);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
+            aspect-ratio: 1/1;
+            background-color: var(--card-bg);
         }
 
-        .result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .result-img {
+        .result-image {
             width: 100%;
-            height: 300px;
+            height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.3s;
+        }
+
+        .result-card:hover .result-image {
+            transform: scale(1.03);
         }
 
         .result-actions {
@@ -389,81 +345,66 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 0.5rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1rem;
             display: flex;
-            justify-content: space-around;
-            transform: translateY(100%);
-            transition: var(--transition);
+            justify-content: space-between;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .result-card:hover .result-actions {
-            transform: translateY(0);
+            opacity: 1;
         }
 
-        .result-action-btn {
-            background: transparent;
-            border: none;
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            cursor: pointer;
-            padding: 0.5rem;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
-            font-size: 0.8rem;
-            transition: var(--transition);
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
         }
 
-        .result-action-btn:hover {
-            color: var(--secondary);
-        }
-
-        .history-section {
-            margin-top: 2rem;
-            background: var(--lighter);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        [data-theme="dark"] .history-section {
-            box-shadow: var(--shadow-lg);
-        }
-
-        .history-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 1rem;
-            padding-right: 0.5rem;
+        .action-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
         }
 
         .history-item {
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.8rem;
+            background-color: var(--input-bg);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
             cursor: pointer;
-            transition: var(--transition);
+            font-size: 0.9rem;
+            transition: all 0.2s;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        [data-theme="dark"] .history-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
         .history-item:hover {
-            background: rgba(110, 69, 226, 0.1);
-            border-radius: var(--border-radius-sm);
+            background-color: var(--primary-light);
+            color: white;
         }
 
-        .history-item:last-child {
-            border-bottom: none;
+        .history-item .delete {
+            color: var(--error);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
 
-        .history-item-time {
-            font-size: 0.7rem;
-            color: var(--gray);
+        .history-item:hover .delete {
+            color: white;
         }
 
         .loading-overlay {
@@ -472,56 +413,160 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .loading-overlay.active {
-            opacity: 1;
-            pointer-events: all;
+            backdrop-filter: blur(5px);
         }
 
         .loading-spinner {
             width: 80px;
             height: 80px;
-            border: 8px solid rgba(255, 255, 255, 0.1);
-            border-top: 8px solid var(--primary);
+            border: 8px solid rgba(110, 0, 255, 0.3);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 2rem;
         }
 
         .loading-text {
-            color: white;
             font-size: 2rem;
             font-weight: bold;
+            color: var(--accent);
             text-align: center;
-            position: relative;
-        }
-
-        .loading-text::after {
-            content: '';
-            animation: dots 1.5s infinite steps(4);
-            position: absolute;
+            animation: pulse-text 2s infinite;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
-        @keyframes dots {
-            0%, 100% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
+        @keyframes pulse-text {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 10px var(--accent); }
+            100% { opacity: 0.5; }
+        }
+
+        .error-message {
+            color: var(--error);
+            background-color: rgba(255, 0, 68, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success);
+            background-color: rgba(0, 255, 136, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .advanced-settings {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-top: 1rem;
+        }
+
+        .advanced-settings.active {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .toggle-advanced {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .toggle-advanced i {
+            transition: transform 0.3s;
+        }
+
+        .toggle-advanced.active i {
+            transform: rotate(90deg);
+        }
+
+        .social-share {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .share-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .share-btn.facebook { background-color: #3b5998; }
+        .share-btn.twitter { background-color: #1da1f2; }
+        .share-btn.whatsapp { background-color: #25d366; }
+        .share-btn.tiktok { background-color: #000000; }
+        .share-btn.reddit { background-color: #ff5700; }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            background-color: var(--card-bg);
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
 
         .tooltip {
@@ -533,10 +578,10 @@
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 200px;
-            background-color: var(--dark);
-            color: var(--lighter);
+            background-color: var(--card-bg);
+            color: var(--text);
             text-align: center;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             padding: 0.5rem;
             position: absolute;
             z-index: 1;
@@ -546,7 +591,7 @@
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.8rem;
-            font-weight: normal;
+            border: 1px solid var(--border);
         }
 
         .tooltip:hover .tooltiptext {
@@ -554,1036 +599,897 @@
             opacity: 1;
         }
 
-        .advanced-settings {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
+        /* Cyberpunk elements */
+        .cyber-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 1rem 0;
+            position: relative;
         }
 
-        .advanced-settings.active {
-            max-height: 1000px;
-            margin-top: 1rem;
+        .cyber-line::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.7;
         }
 
-        .toggle-advanced {
-            background: transparent;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .cyber-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+            animation: blink 2s infinite;
         }
 
-        .toggle-advanced svg {
-            transition: transform 0.3s ease;
-        }
-
-        .toggle-advanced.active svg {
-            transform: rotate(180deg);
-        }
-
-        .share-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .share-btn {
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius-sm);
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .share-twitter {
-            background: #1DA1F2;
-            color: white;
-        }
-
-        .share-facebook {
-            background: #4267B2;
-            color: white;
-        }
-
-        .share-instagram {
-            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
-            color: white;
-        }
-
-        .share-whatsapp {
-            background: #25D366;
-            color: white;
-        }
-
-        .share-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .empty-state p {
-            margin-top: 0.5rem;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .logo h1 {
-                font-size: 1.8rem;
-            }
-            
-            .settings-grid {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
             
-            .action-buttons {
+            .btn-group {
                 flex-direction: column;
             }
             
             .btn {
                 width: 100%;
-                justify-content: center;
             }
             
-            .share-buttons {
-                flex-wrap: wrap;
+            header {
+                padding: 1rem;
             }
             
-            .share-btn {
-                flex: 1;
-                justify-content: center;
+            h1 {
+                font-size: 2rem;
             }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--lighter);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
+            
+            .language-switcher, .theme-toggle {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="cyber-border">
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="id">ID</button>
+        </div>
+        <div class="theme-toggle">
+            <i class="fas fa-moon"></i>
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+            <i class="fas fa-sun"></i>
+        </div>
+        <h1 class="neon-text">DEVAKA AI</h1>
+        <p class="subtitle" data-i18n="subtitle">Advanced AI Image Generator - Create Stunning Visuals with Artificial Intelligence</p>
+    </header>
+
     <div class="container">
-        <header>
-            <div class="logo">
-                <h1>DEVAKA AI</h1>
-            </div>
-            <div class="controls">
-                <button id="themeToggle" class="theme-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
-                    </svg>
-                    <span id="themeText">Dark Mode</span>
-                </button>
-                <button id="languageToggle" class="language-toggle">
-                    <span id="languageText">EN/ID</span>
-                </button>
-            </div>
-        </header>
-
-        <main class="main-grid">
-            <section class="input-section">
-                <h2 class="section-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                    <span id="promptTitle">Image Prompt</span>
-                </h2>
-                <textarea id="promptInput" class="prompt-area" placeholder="Describe the image you want to generate..."></textarea>
-                
-                <div class="setting-group">
-                    <label for="negativePrompt">
-                        <span id="negativePromptLabel">Negative Prompt</span>
-                        <span class="tooltip">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                            </svg>
-                            <span class="tooltiptext" id="negativePromptTooltip">Specify what you don't want to appear in the image</span>
-                        </span>
-                    </label>
-                    <textarea id="negativePrompt" class="negative-prompt-area" placeholder="Things you want to exclude from the image..."></textarea>
+        <div class="main-grid">
+            <div class="left-panel">
+                <div class="panel cyber-border">
+                    <div class="panel-title">
+                        <i class="fas fa-keyboard"></i>
+                        <span data-i18n="prompt_title">PROMPT</span>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="prompt-input" placeholder="Describe the image you want to generate..." data-i18n-placeholder="prompt_placeholder"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button id="enhance-prompt-btn" class="btn btn-secondary">
+                            <i class="fas fa-magic"></i>
+                            <span data-i18n="enhance_prompt">Enhance Prompt</span>
+                        </button>
+                        <button id="random-prompt-btn" class="btn btn-secondary">
+                            <i class="fas fa-random"></i>
+                            <span data-i18n="random_prompt">Random Prompt</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="settings-grid">
-                    <div class="setting-group">
-                        <label for="aiModel">
-                            <span id="modelLabel">AI Model</span>
-                        </label>
-                        <select id="aiModel">
-                            <option value="default">Default</option>
-                            <option value="dalle3">DALL-E 3</option>
-                            <option value="midjourney">Midjourney</option>
-                            <option value="stablediffusion">Stable Diffusion</option>
+                <div class="panel cyber-border">
+                    <div class="panel-title">
+                        <i class="fas fa-sliders-h"></i>
+                        <span data-i18n="settings_title">SETTINGS</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="ai-model" data-i18n="model_label">AI Model</label>
+                        <select id="ai-model">
+                            <option value="default" data-i18n="model_default">Default</option>
+                            <option value="dalle3" data-i18n="model_dalle">DALL-E 3</option>
+                            <option value="flux" data-i18n="model_flux">Flux</option>
+                            <option value="midjourney" data-i18n="model_midjourney">Midjourney</option>
+                            <option value="stable-diffusion" data-i18n="model_sd">Stable Diffusion</option>
                         </select>
                     </div>
-
-                    <div class="setting-group">
-                        <label for="fluxVariation">
-                            <span id="fluxLabel">Flux Variation</span>
-                        </label>
-                        <select id="fluxVariation">
-                            <option value="default">Default</option>
-                            <option value="flux">Flux</option>
-                            <option value="fluxdev">Flux Dev</option>
-                            <option value="fluxpro">Flux Pro</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-group">
-                        <label for="style">
-                            <span id="styleLabel">Style</span>
-                        </label>
+                    <div class="form-group">
+                        <label for="style" data-i18n="style_label">Style</label>
                         <select id="style">
-                            <option value="none">No Style</option>
-                            <option value="realistic">Realistic</option>
-                            <option value="digitalart">Digital Art</option>
-                            <option value="anime">Anime Style</option>
-                            <option value="painting">Painting</option>
-                            <option value="photography">Photography</option>
-                            <option value="watercolor">Watercolor</option>
-                            <option value="3drender">3D Render</option>
-                            <option value="surrealism">Surrealism</option>
-                            <option value="3ddisney">3D Disney Character</option>
-                            <option value="studioghibli">Studio Ghibli</option>
-                            <option value="ukiyoe">Ukiyo-e</option>
-                            <option value="lowbrow">Lowbrow Art</option>
-                            <option value="minimalism">Minimalism</option>
-                            <option value="kinetic">Kinetic Art</option>
-                            <option value="sumie">Sumi-e</option>
-                            <option value="claymation">Claymation</option>
-                            <option value="brutalism">Brutalism</option>
-                            <option value="stainedglass">Stained Glass</option>
-                            <option value="grunge">Grunge</option>
-                            <option value="horror">Horror</option>
-                            <option value="artdeco">Art Deco</option>
-                            <option value="fantasy">Fantasy Art</option>
-                            <option value="graffiti">Graffiti Art</option>
-                            <option value="pixelart">Pixel Art</option>
-                            <option value="steampunk">Steampunk</option>
-                            <option value="cyberpunk">Cyberpunk</option>
-                            <option value="abstract">Abstract</option>
-                            <option value="cartoon">Cartoon</option>
-                            <option value="vintage">Vintage</option>
-                            <option value="gothic">Gothic</option>
-                            <option value="lowpoly">Low Poly</option>
-                            <option value="popart">Pop Art</option>
-                            <option value="comicbook">Comic Book</option>
-                            <option value="chalkart">Chalk Art</option>
-                            <option value="neonnoir">Neon Noir</option>
-                            <option value="amigurumi">Amigurumi</option>
-                            <option value="origami">Origami</option>
-                            <option value="zentangle">Zentangle</option>
-                            <option value="glitchart">Glitch Art</option>
-                            <option value="synthwave">Synthwave</option>
-                            <option value="artnouveau">Art Nouveau</option>
-                            <option value="biomorphic">Biomorphic Art</option>
-                            <option value="cubism">Cubism</option>
-                            <option value="impressionism">Impressionism</option>
-                            <option value="psychedelic">Psychedelic</option>
-                            <option value="macabre">Macabre</option>
-                            <option value="dystopian">Dystopian</option>
+                            <option value="default" data-i18n="style_default">Default</option>
+                            <option value="realistic" data-i18n="style_realistic">Realistic</option>
+                            <option value="digital-art" data-i18n="style_digital">Digital Art</option>
+                            <option value="anime" data-i18n="style_anime">Anime Style</option>
+                            <option value="photography" data-i18n="style_photo">Photography</option>
+                            <option value="watercolor" data-i18n="style_watercolor">Watercolor</option>
+                            <option value="airbrush" data-i18n="style_airbrush">Air Brush</option>
+                            <option value="3d-render" data-i18n="style_3d">3D Render</option>
+                            <option value="surrealism" data-i18n="style_surreal">Surrealism</option>
+                            <option value="3d-disney" data-i18n="style_disney">3D Disney Character</option>
+                            <option value="studio-ghibli" data-i18n="style_ghibli">Studio Ghibli</option>
+                            <option value="caricature-3d" data-i18n="style_caricature">Caricature 3D</option>
+                            <option value="cartoon" data-i18n="style_cartoon">Cartoon</option>
+                            <option value="graffiti" data-i18n="style_graffiti">Graffiti Art</option>
+                            <option value="pixel-art" data-i18n="style_pixel">Pixel Art</option>
+                            <option value="steampunk" data-i18n="style_steampunk">Steampunk</option>
+                            <option value="cyberpunk" data-i18n="style_cyberpunk">Cyberpunk</option>
+                            <option value="psychedelic" data-i18n="style_psychedelic">Psychedelic</option>
+                            <option value="fractal" data-i18n="style_fractal">Fractal Vortex</option>
                         </select>
                     </div>
-
-                    <div class="setting-group">
-                        <label for="lightEnhancement">
-                            <span id="lightLabel">Light Enhancement</span>
-                        </label>
-                        <select id="lightEnhancement">
-                            <option value="none">None</option>
-                            <option value="hdrplus">HDR+</option>
-                            <option value="detailultra">Detail Ultra</option>
-                            <option value="cinematic">Cinematic</option>
-                            <option value="neonglow">Neon Glow</option>
-                            <option value="photorealistic">Photorealistic</option>
-                            <option value="dramalight">Drama Light</option>
+                    <div class="form-group">
+                        <label for="aspect-ratio" data-i18n="aspect_label">Aspect Ratio</label>
+                        <select id="aspect-ratio">
+                            <option value="1:1" data-i18n="aspect_square">Square (1:1)</option>
+                            <option value="4:3" data-i18n="aspect_standard">Standard (4:3)</option>
+                            <option value="16:9" selected data-i18n="aspect_wide">Widescreen (16:9)</option>
+                            <option value="9:16" data-i18n="aspect_portrait">Portrait (9:16)</option>
+                            <option value="3:2" data-i18n="aspect_classic">Classic (3:2)</option>
+                            <option value="2:3" data-i18n="aspect_tall">Tall (2:3)</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="setting-group">
-                    <label>
-                        <span id="aspectLabel">Aspect Ratio</span>
-                    </label>
-                    <div class="aspect-ratio-buttons">
-                        <button class="aspect-ratio-btn active" data-ratio="1:1" data-width="1080" data-height="1080">Square 1:1</button>
-                        <button class="aspect-ratio-btn" data-ratio="9:16" data-width="1080" data-height="1920">Portrait 9:16</button>
-                        <button class="aspect-ratio-btn" data-ratio="16:9" data-width="1920" data-height="1080">Landscape 16:9</button>
+                    <div class="form-group">
+                        <label for="quality" data-i18n="quality_label">Quality Enhancement</label>
+                        <select id="quality">
+                            <option value="none" data-i18n="quality_none">None</option>
+                            <option value="hdr" data-i18n="quality_hdr">HDR</option>
+                            <option value="ultra-detail" data-i18n="quality_ultra">Ultra Detail</option>
+                            <option value="ultra-realistic" data-i18n="quality_realistic">Ultra-Realistic</option>
+                            <option value="cinematic" data-i18n="quality_cinematic">Cinematic Lighting</option>
+                            <option value="photorealistic" data-i18n="quality_photoreal">Photorealistic</option>
+                            <option value="8k" data-i18n="quality_8k">8K Resolution</option>
+                            <option value="professional" data-i18n="quality_pro">Professional Photography</option>
+                            <option value="unreal" data-i18n="quality_unreal">Unreal Engine 5</option>
+                        </select>
                     </div>
-                </div>
-
-                <div class="setting-group">
-                    <label for="width">
-                        <span id="widthLabel">Width:</span> <span id="widthValue" class="range-value">1080</span>px
-                    </label>
-                    <input type="range" id="width" min="1080" max="2560" step="10" value="1080">
-                </div>
-
-                <div class="setting-group">
-                    <label for="height">
-                        <span id="heightLabel">Height:</span> <span id="heightValue" class="range-value">1080</span>px
-                    </label>
-                    <input type="range" id="height" min="1080" max="2560" step="10" value="1080">
-                </div>
-
-                <div class="setting-group">
-                    <label for="steps">
-                        <span id="stepsLabel">Steps:</span> <span id="stepsValue" class="range-value">50</span>
-                    </label>
-                    <input type="range" id="steps" min="20" max="100" step="5" value="50">
-                </div>
-
-                <div class="setting-group">
-                    <label for="additionalFeatures">
-                        <span id="featuresLabel">Additional Features</span>
-                    </label>
-                    <select id="additionalFeatures">
-                        <option value="none">None</option>
-                        <option value="animation">Animation</option>
-                        <option value="transparency">Transparency</option>
-                        <option value="tiltshift">Tilt-Shift</option>
-                        <option value="hologram">Hologram</option>
-                    </select>
-                </div>
-
-                <div class="setting-group">
-                    <label>
-                        <input type="checkbox" id="ultraEnhance">
-                        <span id="enhanceLabel">Ultra Enhance (High Detail)</span>
-                    </label>
-                </div>
-
-                <button id="toggleAdvanced" class="toggle-advanced">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                    <span id="advancedLabel">Advanced Settings</span>
-                </button>
-
-                <div id="advancedSettings" class="advanced-settings">
-                    <div class="settings-grid">
-                        <div class="setting-group">
-                            <label for="colorPalette">
-                                <span id="paletteLabel">Color Palette</span>
+                    <div class="form-group">
+                        <div class="toggle-container">
+                            <span data-i18n="nsfw_label">NSFW Content:</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="nsfw-toggle">
+                                <span class="slider"></span>
                             </label>
-                            <select id="colorPalette">
-                                <option value="default">Default</option>
-                                <option value="vibrant">Vibrant</option>
-                                <option value="pastel">Pastel</option>
-                                <option value="monochrome">Monochrome</option>
-                                <option value="warm">Warm Tones</option>
-                                <option value="cool">Cool Tones</option>
-                            </select>
-                        </div>
-
-                        <div class="setting-group">
-                            <label for="composition">
-                                <span id="compositionLabel">Composition</span>
-                            </label>
-                            <select id="composition">
-                                <option value="default">Default</option>
-                                <option value="closeup">Close-up</option>
-                                <option value="wideshot">Wide Shot</option>
-                                <option value="macro">Macro</option>
-                                <option value="aerial">Aerial</option>
-                            </select>
                         </div>
                     </div>
-                </div>
-
-                <div class="action-buttons">
-                    <button id="generateBtn" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                        </svg>
-                        <span id="generateLabel">Generate Image</span>
-                    </button>
-                    <button id="clearBtn" class="btn btn-secondary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        </svg>
-                        <span id="clearLabel">Clear</span>
-                    </button>
-                </div>
-
-                <div class="share-buttons">
-                    <button class="share-btn share-twitter" id="shareTwitter">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
-                        </svg>
-                        Twitter
-                    </button>
-                    <button class="share-btn share-facebook" id="shareFacebook">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-                        </svg>
-                        Facebook
-                    </button>
-                    <button class="share-btn share-instagram" id="shareInstagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
-                        </svg>
-                        Instagram
-                    </button>
-                    <button class="share-btn share-whatsapp" id="shareWhatsapp">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-                        </svg>
-                        WhatsApp
-                    </button>
-                </div>
-            </section>
-
-            <section class="output-section">
-                <h2 class="section-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                    </svg>
-                    <span id="resultsTitle">Generated Images</span>
-                </h2>
-                
-                <div id="resultsContainer" class="results-grid">
-                    <div class="empty-state">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                        </svg>
-                        <h3 id="emptyTitle">No Images Generated Yet</h3>
-                        <p id="emptyText">Enter a prompt and click "Generate Image" to create amazing AI art</p>
+                    <div class="toggle-advanced">
+                        <i class="fas fa-chevron-right"></i>
+                        <span data-i18n="advanced_toggle">Advanced Settings</span>
                     </div>
+                    <div class="advanced-settings">
+                        <div class="form-group">
+                            <label for="negative-prompt" data-i18n="negative_label">Negative Prompt</label>
+                            <textarea id="negative-prompt" placeholder="What you don't want in the image..." data-i18n-placeholder="negative_placeholder"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="color_label">Color Palette</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="default" checked>
+                                    <span data-i18n="color_default">Default</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="vibrant">
+                                    <span data-i18n="color_vibrant">Vibrant</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="pastel">
+                                    <span data-i18n="color_pastel">Pastel</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="monochrome">
+                                    <span data-i18n="color_mono">Monochrome</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="warm">
+                                    <span data-i18n="color_warm">Warm Tones</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="cool">
+                                    <span data-i18n="color_cool">Cool Tones</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="color" value="rgb">
+                                    <span data-i18n="color_rgb">RGB</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="composition_label">Composition</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="default" checked>
+                                    <span data-i18n="composition_default">Default</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="closeup">
+                                    <span data-i18n="composition_close">Close-up</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="wide">
+                                    <span data-i18n="composition_wide">Wide Shot</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="macro">
+                                    <span data-i18n="composition_macro">Macro</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="aerial">
+                                    <span data-i18n="composition_aerial">Aerial</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="low">
+                                    <span data-i18n="composition_low">Low View Angle</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="radio" name="composition" value="drone">
+                                    <span data-i18n="composition_drone">Drone Wide Angle</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="width" data-i18n="width_label">Width (px)</label>
+                            <input type="number" id="width" min="1024" max="3840" value="1920">
+                        </div>
+                        <div class="form-group">
+                            <label for="height" data-i18n="height_label">Height (px)</label>
+                            <input type="number" id="height" min="1024" max="3840" value="1080">
+                        </div>
+                        <div class="form-group">
+                            <label for="steps" data-i18n="steps_label">Steps (50-100)</label>
+                            <input type="number" id="steps" min="50" max="100" value="70">
+                        </div>
+                    </div>
+                    <button id="generate-btn" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">
+                        <i class="fas fa-bolt"></i>
+                        <span data-i18n="generate_btn">GENERATE IMAGE</span>
+                    </button>
+                    <div class="error-message" id="error-message"></div>
+                    <div class="success-message" id="success-message"></div>
                 </div>
-            </section>
-        </main>
 
-        <section class="history-section">
-            <h2 class="section-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.956 7.956 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-                </svg>
-                <span id="historyTitle">Prompt History</span>
-                <button id="clearHistoryBtn" class="btn btn-danger" style="margin-left: auto; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
-                    <span id="clearHistoryLabel">Clear History</span>
-                </button>
-            </h2>
-            <div id="historyList" class="history-list">
-                <!-- History items will be added here dynamically -->
+                <div class="panel cyber-border">
+                    <div class="panel-title">
+                        <i class="fas fa-history"></i>
+                        <span data-i18n="history_title">PROMPT HISTORY</span>
+                        <button id="clear-history" class="btn btn-secondary" style="margin-left: auto; padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                            <i class="fas fa-trash"></i>
+                            <span data-i18n="clear_history">Clear</span>
+                        </button>
+                    </div>
+                    <div id="history-list"></div>
+                </div>
             </div>
-        </section>
 
-        <footer style="margin-top: 3rem; text-align: center; color: var(--gray); font-size: 0.9rem;">
-            <p id="copyrightText">© 2025 DEVAKA AI GENERATOR | Powered by Pollinations API | Developed by Dery Lau | Thanks to Github & Cloudflare</p>
-        </footer>
+            <div class="right-panel">
+                <div class="panel cyber-border">
+                    <div class="panel-title">
+                        <i class="fas fa-images"></i>
+                        <span data-i18n="results_title">GENERATED IMAGES</span>
+                    </div>
+                    <div class="results-grid" id="results-grid"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
         <div class="loading-spinner"></div>
-        <div class="loading-text">DEVAKA AI Loading</div>
+        <div class="loading-text">DEVAKA AI <span class="cyber-dot"></span> LOADING</div>
     </div>
+
+    <footer>
+        <p>&copy; <span id="current-year">2025</span> DEVAKA AI GENERATOR <span class="cyber-dot"></span> Powered by Pollinations API</p>
+        <p>Developed by Dery Lau <span class="cyber-dot"></span> Thanks to Github & Cloudflare</p>
+    </footer>
 
     <script>
-        // Language translations
-        const translations = {
-            en: {
-                themeText: "Dark Mode",
-                promptTitle: "Image Prompt",
-                promptPlaceholder: "Describe the image you want to generate...",
-                negativePromptLabel: "Negative Prompt",
-                negativePromptTooltip: "Specify what you don't want to appear in the image",
-                negativePromptPlaceholder: "Things you want to exclude from the image...",
-                modelLabel: "AI Model",
-                fluxLabel: "Flux Variation",
-                styleLabel: "Style",
-                lightLabel: "Light Enhancement",
-                aspectLabel: "Aspect Ratio",
-                widthLabel: "Width:",
-                heightLabel: "Height:",
-                stepsLabel: "Steps:",
-                featuresLabel: "Additional Features",
-                enhanceLabel: "Ultra Enhance (High Detail)",
-                advancedLabel: "Advanced Settings",
-                paletteLabel: "Color Palette",
-                compositionLabel: "Composition",
-                generateLabel: "Generate Image",
-                clearLabel: "Clear",
-                resultsTitle: "Generated Images",
-                emptyTitle: "No Images Generated Yet",
-                emptyText: "Enter a prompt and click \"Generate Image\" to create amazing AI art",
-                historyTitle: "Prompt History",
-                clearHistoryLabel: "Clear History",
-                copyrightText: "© 2025 DEVAKA AI GENERATOR | Powered by Pollinations API | Developed by Dery Lau | Thanks to Github & Cloudflare"
-            },
-            id: {
-                themeText: "Mode Gelap",
-                promptTitle: "Prompt Gambar",
-                promptPlaceholder: "Deskripsikan gambar yang ingin Anda hasilkan...",
-                negativePromptLabel: "Prompt Negatif",
-                negativePromptTooltip: "Tentukan apa yang tidak ingin muncul dalam gambar",
-                negativePromptPlaceholder: "Hal-hal yang ingin Anda kecualikan dari gambar...",
-                modelLabel: "Model AI",
-                fluxLabel: "Variasi Flux",
-                styleLabel: "Gaya",
-                lightLabel: "Peningkatan Cahaya",
-                aspectLabel: "Rasio Aspek",
-                widthLabel: "Lebar:",
-                heightLabel: "Tinggi:",
-                stepsLabel: "Langkah:",
-                featuresLabel: "Fitur Tambahan",
-                enhanceLabel: "Peningkatan Ultra (Detail Tinggi)",
-                advancedLabel: "Pengaturan Lanjutan",
-                paletteLabel: "Palet Warna",
-                compositionLabel: "Komposisi",
-                generateLabel: "Hasilkan Gambar",
-                clearLabel: "Bersihkan",
-                resultsTitle: "Gambar yang Dihasilkan",
-                emptyTitle: "Belum Ada Gambar yang Dihasilkan",
-                emptyText: "Masukkan prompt dan klik \"Hasilkan Gambar\" untuk membuat seni AI yang menakjubkan",
-                historyTitle: "Riwayat Prompt",
-                clearHistoryLabel: "Hapus Riwayat",
-                copyrightText: "© 2025 DEVAKA AI GENERATOR | Didukung oleh Pollinations API | Dikembangkan oleh Dery Lau | Terima kasih kepada Github & Cloudflare"
-            }
-        };
+        // Current year for footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // DOM Elements
-        const html = document.getElementById('html');
-        const themeToggle = document.getElementById('themeToggle');
-        const themeText = document.getElementById('themeText');
-        const languageToggle = document.getElementById('languageToggle');
-        const languageText = document.getElementById('languageText');
-        const promptInput = document.getElementById('promptInput');
-        const negativePrompt = document.getElementById('negativePrompt');
-        const aiModel = document.getElementById('aiModel');
-        const fluxVariation = document.getElementById('fluxVariation');
-        const style = document.getElementById('style');
-        const lightEnhancement = document.getElementById('lightEnhancement');
-        const widthInput = document.getElementById('width');
-        const heightInput = document.getElementById('height');
-        const stepsInput = document.getElementById('steps');
-        const widthValue = document.getElementById('widthValue');
-        const heightValue = document.getElementById('heightValue');
-        const stepsValue = document.getElementById('stepsValue');
-        const additionalFeatures = document.getElementById('additionalFeatures');
-        const ultraEnhance = document.getElementById('ultraEnhance');
-        const toggleAdvanced = document.getElementById('toggleAdvanced');
-        const advancedSettings = document.getElementById('advancedSettings');
-        const colorPalette = document.getElementById('colorPalette');
-        const composition = document.getElementById('composition');
-        const generateBtn = document.getElementById('generateBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const aspectRatioBtns = document.querySelectorAll('.aspect-ratio-btn');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const historyList = document.getElementById('historyList');
-        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const shareTwitter = document.getElementById('shareTwitter');
-        const shareFacebook = document.getElementById('shareFacebook');
-        const shareInstagram = document.getElementById('shareInstagram');
-        const shareWhatsapp = document.getElementById('shareWhatsapp');
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        themeToggle.checked = currentTheme === 'light';
+        
+        themeToggle.addEventListener('change', function() {
+            const newTheme = this.checked ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
 
-        // State
-        let currentTheme = localStorage.getItem('theme') || 'light';
-        let currentLanguage = localStorage.getItem('language') || 'en';
-        let history = JSON.parse(localStorage.getItem('promptHistory')) || [];
+        // Advanced settings toggle
+        const advancedToggle = document.querySelector('.toggle-advanced');
+        const advancedSettings = document.querySelector('.advanced-settings');
+        
+        advancedToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            advancedSettings.classList.toggle('active');
+        });
 
-        // Initialize
-        function init() {
-            applyTheme();
-            applyLanguage();
-            updateRangeValues();
-            loadHistory();
-            setupEventListeners();
-        }
-
-        // Theme functions
-        function applyTheme() {
-            html.setAttribute('data-theme', currentTheme);
-            themeText.textContent = currentTheme === 'light' ? translations[currentLanguage].themeText : translations[currentLanguage].themeText;
-            localStorage.setItem('theme', currentTheme);
-        }
-
-        function toggleTheme() {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            applyTheme();
-        }
-
-        // Language functions
-        function applyLanguage() {
-            const lang = translations[currentLanguage];
-            for (const [key, value] of Object.entries(lang)) {
-                const element = document.getElementById(`${key}`);
-                if (element) {
-                    element.textContent = value;
-                }
-            }
-            
-            // Update placeholders
-            promptInput.placeholder = lang.promptPlaceholder;
-            negativePrompt.placeholder = lang.negativePromptPlaceholder;
-            
-            // Update language toggle text
-            languageText.textContent = currentLanguage === 'en' ? 'EN/ID' : 'ID/EN';
-            
-            localStorage.setItem('language', currentLanguage);
-        }
-
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'en' ? 'id' : 'en';
-            applyLanguage();
-        }
-
-        // Range input functions
-        function updateRangeValues() {
-            widthValue.textContent = widthInput.value;
-            heightValue.textContent = heightInput.value;
-            stepsValue.textContent = stepsInput.value;
-        }
-
-        // History functions
-        function loadHistory() {
-            historyList.innerHTML = '';
-            
-            if (history.length === 0) {
-                const emptyItem = document.createElement('div');
-                emptyItem.className = 'history-item';
-                emptyItem.textContent = currentLanguage === 'en' ? 'No history yet' : 'Belum ada riwayat';
-                historyList.appendChild(emptyItem);
-                return;
-            }
-            
-            history.slice().reverse().forEach(item => {
-                addHistoryItem(item);
-            });
-        }
-
-        function addHistoryItem(item) {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            
-            const promptText = document.createElement('span');
-            promptText.textContent = item.prompt.length > 50 ? `${item.prompt.substring(0, 50)}...` : item.prompt;
-            
-            const timeText = document.createElement('span');
-            timeText.className = 'history-item-time';
-            timeText.textContent = new Date(item.timestamp).toLocaleString();
-            
-            historyItem.appendChild(promptText);
-            historyItem.appendChild(timeText);
-            
-            historyItem.addEventListener('click', () => {
-                promptInput.value = item.prompt;
-                if (item.negativePrompt) negativePrompt.value = item.negativePrompt;
-                if (item.aiModel) aiModel.value = item.aiModel;
-                if (item.fluxVariation) fluxVariation.value = item.fluxVariation;
-                if (item.style) style.value = item.style;
-                if (item.lightEnhancement) lightEnhancement.value = item.lightEnhancement;
-                if (item.width) {
-                    widthInput.value = item.width;
-                    widthValue.textContent = item.width;
-                }
-                if (item.height) {
-                    heightInput.value = item.height;
-                    heightValue.textContent = item.height;
-                }
-                if (item.steps) {
-                    stepsInput.value = item.steps;
-                    stepsValue.textContent = item.steps;
-                }
-                if (item.additionalFeatures) additionalFeatures.value = item.additionalFeatures;
-                if (item.ultraEnhance) ultraEnhance.checked = item.ultraEnhance;
-                if (item.colorPalette) colorPalette.value = item.colorPalette;
-                if (item.composition) composition.value = item.composition;
-                
-                // Scroll to prompt input
-                promptInput.focus();
-            });
-            
-            historyList.prepend(historyItem);
-        }
-
-        function addToHistory(promptData) {
-            const historyItem = {
-                prompt: promptData.prompt,
-                negativePrompt: promptData.negativePrompt,
-                aiModel: promptData.aiModel,
-                fluxVariation: promptData.fluxVariation,
-                style: promptData.style,
-                lightEnhancement: promptData.lightEnhancement,
-                width: promptData.width,
-                height: promptData.height,
-                steps: promptData.steps,
-                additionalFeatures: promptData.additionalFeatures,
-                ultraEnhance: promptData.ultraEnhance,
-                colorPalette: promptData.colorPalette,
-                composition: promptData.composition,
-                timestamp: Date.now()
-            };
-            
-            history.push(historyItem);
-            if (history.length > 20) history.shift();
-            
-            localStorage.setItem('promptHistory', JSON.stringify(history));
-            loadHistory();
-        }
-
-        function clearHistory() {
-            history = [];
-            localStorage.setItem('promptHistory', JSON.stringify(history));
-            loadHistory();
-        }
-
-        // Image generation functions
-        async function generateImage() {
-            const prompt = promptInput.value.trim();
-            if (!prompt) {
-                alert(currentLanguage === 'en' ? 'Please enter a prompt' : 'Silakan masukkan prompt');
-                return;
-            }
-            
-            // Show loading overlay
-            loadingOverlay.classList.add('active');
-            
-            // Prepare prompt with all settings
-            let fullPrompt = prompt;
-            
-            // Add AI model prefix if not default
-            if (aiModel.value !== 'default') {
-                fullPrompt = `${aiModel.value} style: ${fullPrompt}`;
-            }
-            
-            // Add flux variation if not default
-            if (fluxVariation.value !== 'default') {
-                fullPrompt = `${fluxVariation.value} flux: ${fullPrompt}`;
-            }
-            
-            // Add style if not none
-            if (style.value !== 'none') {
-                fullPrompt = `${fullPrompt}, ${style.value}`;
-            }
-            
-            // Add light enhancement if not none
-            if (lightEnhancement.value !== 'none') {
-                fullPrompt = `${fullPrompt}, ${lightEnhancement.value} lighting`;
-            }
-            
-            // Add additional features if not none
-            if (additionalFeatures.value !== 'none') {
-                fullPrompt = `${fullPrompt}, ${additionalFeatures.value}`;
-            }
-            
-            // Add ultra enhance if checked
-            if (ultraEnhance.checked) {
-                fullPrompt = `${fullPrompt}, ultra detailed, 8k, high resolution`;
-            }
-            
-            // Add color palette if not default
-            if (colorPalette.value !== 'default') {
-                fullPrompt = `${fullPrompt}, ${colorPalette.value} color palette`;
-            }
-            
-            // Add composition if not default
-            if (composition.value !== 'default') {
-                fullPrompt = `${fullPrompt}, ${composition.value} composition`;
-            }
-            
-            // Add negative prompt if exists
-            if (negativePrompt.value.trim()) {
-                fullPrompt = `${fullPrompt}|${negativePrompt.value.trim()}`;
-            }
-            
-            // Encode prompt for URL
-            const encodedPrompt = encodeURIComponent(fullPrompt);
-            
-            // Build API URL
-            const apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${widthInput.value}&height=${heightInput.value}&steps=${stepsInput.value}&nologo=true`;
-            
-            try {
-                // Save to history
-                addToHistory({
-                    prompt: prompt,
-                    negativePrompt: negativePrompt.value.trim(),
-                    aiModel: aiModel.value,
-                    fluxVariation: fluxVariation.value,
-                    style: style.value,
-                    lightEnhancement: lightEnhancement.value,
-                    width: widthInput.value,
-                    height: heightInput.value,
-                    steps: stepsInput.value,
-                    additionalFeatures: additionalFeatures.value,
-                    ultraEnhance: ultraEnhance.checked,
-                    colorPalette: colorPalette.value,
-                    composition: composition.value
-                });
-                
-                // Create image element
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                
-                img.onload = () => {
-                    // Hide loading overlay
-                    loadingOverlay.classList.remove('active');
-                    
-                    // Add to results
-                    addResultToGrid(img.src, prompt);
-                };
-                
-                img.onerror = () => {
-                    loadingOverlay.classList.remove('active');
-                    alert(currentLanguage === 'en' ? 'Error generating image. Please try again.' : 'Gagal menghasilkan gambar. Silakan coba lagi.');
-                };
-                
-                img.src = apiUrl;
-            } catch (error) {
-                console.error('Error generating image:', error);
-                loadingOverlay.classList.remove('active');
-                alert(currentLanguage === 'en' ? 'Error generating image. Please try again.' : 'Gagal menghasilkan gambar. Silakan coba lagi.');
-            }
-        }
-
-        function addResultToGrid(imageUrl, prompt) {
-            // Remove empty state if it exists
-            const emptyState = resultsContainer.querySelector('.empty-state');
-            if (emptyState) {
-                resultsContainer.removeChild(emptyState);
-            }
-            
-            // Create result card
-            const resultCard = document.createElement('div');
-            resultCard.className = 'result-card';
-            
-            // Create image element
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.alt = prompt;
-            img.className = 'result-img';
-            
-            // Create actions container
-            const actions = document.createElement('div');
-            actions.className = 'result-actions';
-            
-            // Create download button
-            const downloadBtn = document.createElement('button');
-            downloadBtn.className = 'result-action-btn';
-            downloadBtn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                </svg>
-                ${currentLanguage === 'en' ? 'Download' : 'Unduh'}
-            `;
-            downloadBtn.addEventListener('click', () => downloadImage(imageUrl, prompt));
-            
-            // Create share button
-            const shareBtn = document.createElement('button');
-            shareBtn.className = 'result-action-btn';
-            shareBtn.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
-                </svg>
-                ${currentLanguage === 'en' ? 'Share' : 'Bagikan'}
-            `;
-            shareBtn.addEventListener('click', () => shareImage(imageUrl, prompt));
-            
-            // Add buttons to actions
-            actions.appendChild(downloadBtn);
-            actions.appendChild(shareBtn);
-            
-            // Add elements to card
-            resultCard.appendChild(img);
-            resultCard.appendChild(actions);
-            
-            // Add card to grid (at the beginning)
-            resultsContainer.prepend(resultCard);
-        }
-
-        function downloadImage(imageUrl, prompt) {
-            const link = document.createElement('a');
-            link.href = imageUrl;
-            link.download = `devaka-ai-${prompt.substring(0, 20).replace(/\s+/g, '-').toLowerCase()}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function shareImage(imageUrl, prompt) {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'DEVAKA AI Generated Image',
-                    text: `Check out this AI generated image: ${prompt}`,
-                    url: imageUrl
-                }).catch(err => {
-                    console.error('Error sharing:', err);
-                    alert(currentLanguage === 'en' ? 'Error sharing image' : 'Gagal membagikan gambar');
-                });
-            } else {
-                // Fallback for browsers that don't support Web Share API
-                const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this AI generated image: ${prompt}`)}&url=${encodeURIComponent(imageUrl)}`;
-                window.open(shareUrl, '_blank');
-            }
-        }
-
-        function clearInputs() {
-            promptInput.value = '';
-            negativePrompt.value = '';
-            aiModel.value = 'default';
-            fluxVariation.value = 'default';
-            style.value = 'none';
-            lightEnhancement.value = 'none';
-            widthInput.value = '1080';
-            heightInput.value = '1080';
-            stepsInput.value = '50';
-            additionalFeatures.value = 'none';
-            ultraEnhance.checked = false;
-            colorPalette.value = 'default';
-            composition.value = 'default';
-            
-            // Reset aspect ratio buttons
-            aspectRatioBtns.forEach(btn => {
+        // Language switcher
+        const langButtons = document.querySelectorAll('.lang-btn');
+        let currentLang = localStorage.getItem('language') || 'en';
+        
+        function setActiveLanguage(lang) {
+            langButtons.forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.dataset.ratio === '1:1') {
+                if (btn.dataset.lang === lang) {
                     btn.classList.add('active');
                 }
             });
-            
-            updateRangeValues();
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+            updateTextContent();
         }
-
-        // Aspect ratio functions
-        function setAspectRatio(btn) {
-            aspectRatioBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            widthInput.value = btn.dataset.width;
-            heightInput.value = btn.dataset.height;
-            
-            updateRangeValues();
-        }
-
-        // Social share functions
-        function shareOnTwitter() {
-            const text = currentLanguage === 'en' 
-                ? 'Check out DEVAKA AI - Advanced AI Image Generator!' 
-                : 'Lihat DEVAKA AI - Generator Gambar AI Canggih!';
-            const url = 'https://devaka-ai-generator.com';
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
-        }
-
-        function shareOnFacebook() {
-            const url = 'https://devaka-ai-generator.com';
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-        }
-
-        function shareOnInstagram() {
-            alert(currentLanguage === 'en' 
-                ? 'To share on Instagram, download an image first and then share it from your gallery.' 
-                : 'Untuk berbagi di Instagram, unduh gambar terlebih dahulu lalu bagikan dari galeri Anda.');
-        }
-
-        function shareOnWhatsapp() {
-            const text = currentLanguage === 'en' 
-                ? 'Check out DEVAKA AI - Advanced AI Image Generator! https://devaka-ai-generator.com' 
-                : 'Lihat DEVAKA AI - Generator Gambar AI Canggih! https://devaka-ai-generator.com';
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        // Event listeners
-        function setupEventListeners() {
-            // Theme toggle
-            themeToggle.addEventListener('click', toggleTheme);
-            
-            // Language toggle
-            languageToggle.addEventListener('click', toggleLanguage);
-            
-            // Range inputs
-            widthInput.addEventListener('input', () => {
-                widthValue.textContent = widthInput.value;
+        
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                setActiveLanguage(this.dataset.lang);
             });
             
-            heightInput.addEventListener('input', () => {
-                heightValue.textContent = heightInput.value;
+            if (btn.dataset.lang === currentLang) {
+                btn.classList.add('active');
+            }
+        });
+
+        // Translations
+        const translations = {
+            en: {
+                "subtitle": "Advanced AI Image Generator - Create Stunning Visuals with Artificial Intelligence",
+                "prompt_title": "PROMPT",
+                "prompt_placeholder": "Describe the image you want to generate...",
+                "enhance_prompt": "Enhance Prompt",
+                "random_prompt": "Random Prompt",
+                "settings_title": "SETTINGS",
+                "model_label": "AI Model",
+                "model_default": "Default",
+                "model_dalle": "DALL-E 3",
+                "model_flux": "Flux",
+                "model_midjourney": "Midjourney",
+                "model_sd": "Stable Diffusion",
+                "style_label": "Style",
+                "style_default": "Default",
+                "style_realistic": "Realistic",
+                "style_digital": "Digital Art",
+                "style_anime": "Anime Style",
+                "style_photo": "Photography",
+                "style_watercolor": "Watercolor",
+                "style_airbrush": "Air Brush",
+                "style_3d": "3D Render",
+                "style_surreal": "Surrealism",
+                "style_disney": "3D Disney Character",
+                "style_ghibli": "Studio Ghibli",
+                "style_caricature": "Caricature 3D",
+                "style_cartoon": "Cartoon",
+                "style_graffiti": "Graffiti Art",
+                "style_pixel": "Pixel Art",
+                "style_steampunk": "Steampunk",
+                "style_cyberpunk": "Cyberpunk",
+                "style_psychedelic": "Psychedelic",
+                "style_fractal": "Fractal Vortex",
+                "aspect_label": "Aspect Ratio",
+                "aspect_square": "Square (1:1)",
+                "aspect_standard": "Standard (4:3)",
+                "aspect_wide": "Widescreen (16:9)",
+                "aspect_portrait": "Portrait (9:16)",
+                "aspect_classic": "Classic (3:2)",
+                "aspect_tall": "Tall (2:3)",
+                "quality_label": "Quality Enhancement",
+                "quality_none": "None",
+                "quality_hdr": "HDR",
+                "quality_ultra": "Ultra Detail",
+                "quality_realistic": "Ultra-Realistic",
+                "quality_cinematic": "Cinematic Lighting",
+                "quality_photoreal": "Photorealistic",
+                "quality_8k": "8K Resolution",
+                "quality_pro": "Professional Photography",
+                "quality_unreal": "Unreal Engine 5",
+                "nsfw_label": "NSFW Content:",
+                "advanced_toggle": "Advanced Settings",
+                "negative_label": "Negative Prompt",
+                "negative_placeholder": "What you don't want in the image...",
+                "color_label": "Color Palette",
+                "color_default": "Default",
+                "color_vibrant": "Vibrant",
+                "color_pastel": "Pastel",
+                "color_mono": "Monochrome",
+                "color_warm": "Warm Tones",
+                "color_cool": "Cool Tones",
+                "color_rgb": "RGB",
+                "composition_label": "Composition",
+                "composition_default": "Default",
+                "composition_close": "Close-up",
+                "composition_wide": "Wide Shot",
+                "composition_macro": "Macro",
+                "composition_aerial": "Aerial",
+                "composition_low": "Low View Angle",
+                "composition_drone": "Drone Wide Angle",
+                "width_label": "Width (px)",
+                "height_label": "Height (px)",
+                "steps_label": "Steps (50-100)",
+                "generate_btn": "GENERATE IMAGE",
+                "history_title": "PROMPT HISTORY",
+                "clear_history": "Clear",
+                "results_title": "GENERATED IMAGES"
+            },
+            id: {
+                "subtitle": "Generator Gambar AI Canggih - Buat Visual Menakjubkan dengan Kecerdasan Buatan",
+                "prompt_title": "PROMPT",
+                "prompt_placeholder": "Deskripsikan gambar yang ingin Anda buat...",
+                "enhance_prompt": "Perbaiki Prompt",
+                "random_prompt": "Prompt Acak",
+                "settings_title": "PENGATURAN",
+                "model_label": "Model AI",
+                "model_default": "Default",
+                "model_dalle": "DALL-E 3",
+                "model_flux": "Flux",
+                "model_midjourney": "Midjourney",
+                "model_sd": "Stable Diffusion",
+                "style_label": "Gaya",
+                "style_default": "Default",
+                "style_realistic": "Realistis",
+                "style_digital": "Seni Digital",
+                "style_anime": "Gaya Anime",
+                "style_photo": "Fotografi",
+                "style_watercolor": "Cat Air",
+                "style_airbrush": "Air Brush",
+                "style_3d": "Render 3D",
+                "style_surreal": "Surealisme",
+                "style_disney": "Karakter Disney 3D",
+                "style_ghibli": "Studio Ghibli",
+                "style_caricature": "Karikatur 3D",
+                "style_cartoon": "Kartun",
+                "style_graffiti": "Seni Graffiti",
+                "style_pixel": "Seni Pixel",
+                "style_steampunk": "Steampunk",
+                "style_cyberpunk": "Cyberpunk",
+                "style_psychedelic": "Psikedelik",
+                "style_fractal": "Vortex Fraktal",
+                "aspect_label": "Rasio Aspek",
+                "aspect_square": "Persegi (1:1)",
+                "aspect_standard": "Standar (4:3)",
+                "aspect_wide": "Layar Lebar (16:9)",
+                "aspect_portrait": "Portrait (9:16)",
+                "aspect_classic": "Klasik (3:2)",
+                "aspect_tall": "Tinggi (2:3)",
+                "quality_label": "Peningkatan Kualitas",
+                "quality_none": "Tidak Ada",
+                "quality_hdr": "HDR",
+                "quality_ultra": "Detail Ultra",
+                "quality_realistic": "Ultra-Realistis",
+                "quality_cinematic": "Pencahayaan Sinematik",
+                "quality_photoreal": "Fotorealistik",
+                "quality_8k": "Resolusi 8K",
+                "quality_pro": "Fotografi Profesional",
+                "quality_unreal": "Unreal Engine 5",
+                "nsfw_label": "Konten NSFW:",
+                "advanced_toggle": "Pengaturan Lanjutan",
+                "negative_label": "Prompt Negatif",
+                "negative_placeholder": "Apa yang tidak Anda inginkan dalam gambar...",
+                "color_label": "Palet Warna",
+                "color_default": "Default",
+                "color_vibrant": "Vibrant",
+                "color_pastel": "Pastel",
+                "color_mono": "Monokrom",
+                "color_warm": "Warna Hangat",
+                "color_cool": "Warna Dingin",
+                "color_rgb": "RGB",
+                "composition_label": "Komposisi",
+                "composition_default": "Default",
+                "composition_close": "Close-up",
+                "composition_wide": "Shot Lebar",
+                "composition_macro": "Makro",
+                "composition_aerial": "Udara",
+                "composition_low": "Sudut Pandang Rendah",
+                "composition_drone": "Sudut Lebar Drone",
+                "width_label": "Lebar (px)",
+                "height_label": "Tinggi (px)",
+                "steps_label": "Langkah (50-100)",
+                "generate_btn": "BUAT GAMBAR",
+                "history_title": "RIWAYAT PROMPT",
+                "clear_history": "Hapus",
+                "results_title": "GAMBAR YANG DIBUAT"
+            }
+        };
+
+        function updateTextContent() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
             });
             
-            stepsInput.addEventListener('input', () => {
-                stepsValue.textContent = stepsInput.value;
-            });
-            
-            // Aspect ratio buttons
-            aspectRatioBtns.forEach(btn => {
-                btn.addEventListener('click', () => setAspectRatio(btn));
-            });
-            
-            // Advanced settings toggle
-            toggleAdvanced.addEventListener('click', () => {
-                advancedSettings.classList.toggle('active');
-                toggleAdvanced.classList.toggle('active');
-            });
-            
-            // Generate button
-            generateBtn.addEventListener('click', generateImage);
-            
-            // Clear button
-            clearBtn.addEventListener('click', clearInputs);
-            
-            // Clear history button
-            clearHistoryBtn.addEventListener('click', clearHistory);
-            
-            // Social share buttons
-            shareTwitter.addEventListener('click', shareOnTwitter);
-            shareFacebook.addEventListener('click', shareOnFacebook);
-            shareInstagram.addEventListener('click', shareOnInstagram);
-            shareWhatsapp.addEventListener('click', shareOnWhatsapp);
-            
-            // Allow pressing Enter in prompt input to generate
-            promptInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    generateImage();
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang][key]) {
+                    element.setAttribute('placeholder', translations[currentLang][key]);
                 }
             });
         }
 
-        // Initialize the app
-        init();
+        // Initialize
+        updateTextContent();
+
+        // Random prompts
+        const randomPrompts = [
+            "A futuristic cityscape at night with neon lights and flying cars, cyberpunk style",
+            "A majestic dragon soaring through the clouds, digital art",
+            "A serene landscape with a crystal clear lake and snow-capped mountains, ultra realistic",
+            "An astronaut exploring an alien jungle with bioluminescent plants, cinematic lighting",
+            "A steampunk airship flying over a Victorian-era city, detailed gears and brass",
+            "A magical forest with glowing mushrooms and fairies, Studio Ghibli style",
+            "A cybernetic samurai standing in the rain at night, neon reflections",
+            "A surreal dreamscape with floating islands and upside-down waterfalls",
+            "A highly detailed portrait of a wolf with glowing eyes, 8K resolution",
+            "A futuristic mecha robot in a battlefield, ultra detailed",
+            "Pemandangan kota futuristik di malam hari dengan lampu neon dan mobil terbang, gaya cyberpunk",
+            "Naga megah terbang melintasi awan, seni digital",
+            "Pemandangan alam yang tenang dengan danau jernih dan gunung bersalju, ultra realistis",
+            "Seorang astronot menjelajahi hutan alien dengan tanaman bercahaya, pencahayaan sinematik",
+            "Kapal udara steampunk terbang di atas kota era Victoria, detail roda gigi dan kuningan"
+        ];
+
+        document.getElementById('random-prompt-btn').addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * randomPrompts.length);
+            document.getElementById('prompt-input').value = randomPrompts[randomIndex];
+        });
+
+        // Enhance prompt
+        document.getElementById('enhance-prompt-btn').addEventListener('click', function() {
+            const currentPrompt = document.getElementById('prompt-input').value.trim();
+            if (!currentPrompt) return;
+            
+            const style = document.getElementById('style').value;
+            const quality = document.getElementById('quality').value;
+            
+            let enhancedPrompt = currentPrompt;
+            
+            // Add style if not default
+            if (style !== 'default') {
+                const styleText = document.querySelector(`#style option[value="${style}"]`).textContent;
+                enhancedPrompt += `, ${styleText.toLowerCase()}`;
+            }
+            
+            // Add quality enhancements
+            if (quality !== 'none') {
+                const qualityText = document.querySelector(`#quality option[value="${quality}"]`).textContent;
+                enhancedPrompt += `, ${qualityText.toLowerCase()}`;
+            }
+            
+            // Add common enhancements
+            enhancedPrompt += ", masterpiece, ultra detailed, intricate, highly detailed, trending on artstation";
+            
+            document.getElementById('prompt-input').value = enhancedPrompt;
+        });
+
+        // History functionality
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('devaikaHistory') || '[]');
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            history.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <span>${item.prompt.substring(0, 50)}${item.prompt.length > 50 ? '...' : ''}</span>
+                    <button class="delete" data-index="${index}"><i class="fas fa-times"></i></button>
+                `;
+                
+                historyItem.addEventListener('click', function(e) {
+                    if (!e.target.closest('.delete')) {
+                        document.getElementById('prompt-input').value = item.prompt;
+                        document.getElementById('ai-model').value = item.model;
+                        document.getElementById('style').value = item.style;
+                        document.getElementById('aspect-ratio').value = item.aspect;
+                        document.getElementById('quality').value = item.quality;
+                        document.getElementById('nsfw-toggle').checked = item.nsfw;
+                        
+                        if (item.negativePrompt) {
+                            document.getElementById('negative-prompt').value = item.negativePrompt;
+                        }
+                        
+                        showSuccessMessage(currentLang === 'en' ? 'Prompt loaded from history' : 'Prompt dimuat dari riwayat');
+                    }
+                });
+                
+                historyList.appendChild(historyItem);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.history-item .delete').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    removeFromHistory(index);
+                });
+            });
+        }
+        
+        function addToHistory(prompt, model, style, aspect, quality, nsfw, negativePrompt) {
+            const history = JSON.parse(localStorage.getItem('devaikaHistory') || '[]');
+            
+            // Remove if already exists
+            const existingIndex = history.findIndex(item => item.prompt === prompt);
+            if (existingIndex !== -1) {
+                history.splice(existingIndex, 1);
+            }
+            
+            // Add to beginning
+            history.unshift({
+                prompt,
+                model,
+                style,
+                aspect,
+                quality,
+                nsfw,
+                negativePrompt,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 20 items
+            if (history.length > 20) {
+                history.pop();
+            }
+            
+            localStorage.setItem('devaikaHistory', JSON.stringify(history));
+            loadHistory();
+        }
+        
+        function removeFromHistory(index) {
+            const history = JSON.parse(localStorage.getItem('devaikaHistory') || '[]');
+            if (index >= 0 && index < history.length) {
+                history.splice(index, 1);
+                localStorage.setItem('devaikaHistory', JSON.stringify(history));
+                loadHistory();
+            }
+        }
+        
+        document.getElementById('clear-history').addEventListener('click', function() {
+            localStorage.removeItem('devaikaHistory');
+            loadHistory();
+        });
+        
+        // Initialize history
+        loadHistory();
+
+        // Show messages
+        function showErrorMessage(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showSuccessMessage(message) {
+            const successElement = document.getElementById('success-message');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Generate image
+        document.getElementById('generate-btn').addEventListener('click', async function() {
+            const promptInput = document.getElementById('prompt-input');
+            const prompt = promptInput.value.trim();
+            
+            if (!prompt) {
+                showErrorMessage(currentLang === 'en' ? 'Please enter a prompt' : 'Silakan masukkan prompt');
+                return;
+            }
+            
+            const model = document.getElementById('ai-model').value;
+            const style = document.getElementById('style').value;
+            const aspectRatio = document.getElementById('aspect-ratio').value;
+            const quality = document.getElementById('quality').value;
+            const nsfw = document.getElementById('nsfw-toggle').checked;
+            const negativePrompt = document.getElementById('negative-prompt').value.trim();
+            const width = document.getElementById('width').value;
+            const height = document.getElementById('height').value;
+            const steps = document.getElementById('steps').value;
+            const color = document.querySelector('input[name="color"]:checked').value;
+            const composition = document.querySelector('input[name="composition"]:checked').value;
+            
+            // Build final prompt
+            let finalPrompt = prompt;
+            
+            // Add model prefix if not default
+            if (model !== 'default') {
+                if (model === 'dalle3') finalPrompt = `DALL-E 3: ${finalPrompt}`;
+                if (model === 'flux') finalPrompt = `Flux: ${finalPrompt}`;
+                if (model === 'midjourney') finalPrompt = `Midjourney style: ${finalPrompt}`;
+                if (model === 'stable-diffusion') finalPrompt = `Stable Diffusion: ${finalPrompt}`;
+            }
+            
+            // Add style if not default
+            if (style !== 'default') {
+                const styleText = document.querySelector(`#style option[value="${style}"]`).textContent;
+                finalPrompt += `, ${styleText.toLowerCase()}`;
+            }
+            
+            // Add quality enhancements
+            if (quality !== 'none') {
+                const qualityText = document.querySelector(`#quality option[value="${quality}"]`).textContent;
+                finalPrompt += `, ${qualityText.toLowerCase()}`;
+            }
+            
+            // Add color palette if not default
+            if (color !== 'default') {
+                finalPrompt += `, ${color} color palette`;
+            }
+            
+            // Add composition if not default
+            if (composition !== 'default') {
+                finalPrompt += `, ${composition} composition`;
+            }
+            
+            // Add common enhancements
+            finalPrompt += ", masterpiece, ultra detailed, intricate, highly detailed, trending on artstation";
+            
+            // Add negative prompt if exists
+            let finalNegativePrompt = negativePrompt;
+            if (!nsfw) {
+                finalNegativePrompt = (finalNegativePrompt ? finalNegativePrompt + ", " : "") + "nsfw, nude, naked, sexual";
+            }
+            
+            // Show loading
+            document.getElementById('loading-overlay').style.display = 'flex';
+            
+            try {
+                // Build API URL
+                let apiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}`;
+                
+                // Add parameters
+                apiUrl += `?width=${width}&height=${height}&steps=${steps}`;
+                apiUrl += `&nologo=true`;
+                
+                if (finalNegativePrompt) {
+                    apiUrl += `&negative_prompt=${encodeURIComponent(finalNegativePrompt)}`;
+                }
+                
+                // Generate image
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(currentLang === 'en' ? 'Failed to generate image' : 'Gagal membuat gambar');
+                }
+                
+                // Get image blob
+                const blob = await response.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                
+                // Add to results
+                addImageToGrid(imageUrl, finalPrompt);
+                
+                // Add to history
+                addToHistory(prompt, model, style, aspectRatio, quality, nsfw, negativePrompt);
+                
+                showSuccessMessage(currentLang === 'en' ? 'Image generated successfully!' : 'Gambar berhasil dibuat!');
+            } catch (error) {
+                console.error('Error:', error);
+                showErrorMessage(error.message);
+            } finally {
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        });
+        
+        function addImageToGrid(imageUrl, prompt) {
+            const resultsGrid = document.getElementById('results-grid');
+            
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card cyber-border';
+            
+            resultCard.innerHTML = `
+                <img src="${imageUrl}" alt="${prompt}" class="result-image">
+                <div class="result-actions">
+                    <button class="action-btn download-btn" title="Download">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="action-btn share-btn" title="Share">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add download functionality
+            const downloadBtn = resultCard.querySelector('.download-btn');
+            downloadBtn.addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = `devaika-ai-${Date.now()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            // Add share functionality
+            const shareBtn = resultCard.querySelector('.share-btn');
+            shareBtn.addEventListener('click', function() {
+                shareImage(imageUrl, prompt);
+            });
+            
+            // Add to beginning of grid
+            resultsGrid.insertBefore(resultCard, resultsGrid.firstChild);
+        }
+        
+        function shareImage(imageUrl, prompt) {
+            // In a real app, you would implement actual sharing functionality
+            // This is just a placeholder UI
+            alert(currentLang === 'en' 
+                ? `Share this image with prompt: ${prompt}` 
+                : `Bagikan gambar ini dengan prompt: ${prompt}`);
+        }
+        
+        // Aspect ratio calculator
+        document.getElementById('aspect-ratio').addEventListener('change', function() {
+            const ratio = this.value;
+            let width = 1920;
+            let height = 1080;
+            
+            switch (ratio) {
+                case '1:1':
+                    width = height = 1024;
+                    break;
+                case '4:3':
+                    width = 1280;
+                    height = 960;
+                    break;
+                case '16:9':
+                    width = 1920;
+                    height = 1080;
+                    break;
+                case '9:16':
+                    width = 1080;
+                    height = 1920;
+                    break;
+                case '3:2':
+                    width = 1440;
+                    height = 960;
+                    break;
+                case '2:3':
+                    width = 960;
+                    height = 1440;
+                    break;
+            }
+            
+            document.getElementById('width').value = width;
+            document.getElementById('height').value = height;
+        });
     </script>
 </body>
 </html>
